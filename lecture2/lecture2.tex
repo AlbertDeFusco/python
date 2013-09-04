@@ -41,6 +41,141 @@
 
 \frame{\titlepage}
 
+\begin{frame}
+  \frametitle{Containers (sequence)}
+  All are indexed starting at 0 and are arguments for {\tt len()}
+  \begin{itemize}
+    \item one-dimensional list
+      \begin{itemize}
+        \item \lstinline[language=python]|List = ['red','green','blue']|
+        \item \lstinline[language=python]|type(L[1])| returns {\tt <type 'str'>}
+        \item Resizable with \lstinline[language=python]|L.append('ultraviolet')| or \lstinline[language=python]|L.insert(0,'infrared')|
+        \item ``\lstinline[language=python]|+|'' will concatenate lists!
+        \item Generally homogeneous data
+        \item Lists are not arrays
+      \end{itemize}
+    \item Tuples
+      \begin{itemize}
+        \item \lstinline[language=python]|Tuple = (1,[3.,5.,7.],'red')|
+        \item Generally inhomogeneous data
+        \item There is no append or insert
+      \end{itemize}
+    \item Dictionaries
+      \begin{itemize}
+        \item Key - value pairs\\
+          \lstinline[language=python]|Elements = \{'Oxygen': 8, 'Hydrogen': 1\}|\\
+          \lstinline[language=python]|Elements['Carbon'] = 6|\\
+          \begin{itemize}
+            \item \lstinline[language=python]|Elements.keys()| returns element names and \lstinline[language=python]|Elements.values()| returns Z.
+            \item Any type can be a key or value
+          \end{itemize}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Tuples or Lists?}
+  \begin{itemize}
+    \item Lists storing homogeneous elements allows expansion of the list
+      \begin{itemize}
+        \item The code does the order of elements
+        \item Elements can be added or deleted
+        \item Used for iteration
+      \end{itemize}
+      \vskip1cm
+    \item Tuples storing inhomogeneous elements are like {\tt structs}
+      \begin{itemize}
+        \item Code written for tuples {\it requires} knowledge of the tuple
+        \item Generally just a convenience container
+      \end{itemize}
+      \vskip1cm
+    \item In somcases mutability will be important
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Container operations}
+  \begin{itemize}
+    \item Slicing just like Fortran 90\\
+      \lstinline[language=python]|L[start:stop:stride]|\\
+      $\mathrm{start} \leq i < \mathrm{stop}; i+=\mathrm{stride}$
+    \item Negative indices start at the end of the list
+      \begin{itemize}
+        \item -1 is the last element
+      \end{itemize}
+    \item Search for value with ``in''\\
+      \lstinline[language=python]|print (5 in L)|
+    \item Find the element with {\tt index}\\
+      \lstinline[language=python]|'string'.index('n')|
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Other operations}
+  \begin{itemize}
+    \item Search\\
+      \begin{lstlisting}[language=python]
+        >>> List = [1,'red',3.0,(4>3)]
+        >>> print ('red' in List)
+        True
+      \end{lstlisting}
+    \item Slice assignment\\
+      \lstinline[language=python]|L[i:j] = i|
+    \item Deletions\\
+      \lstinline[language=python]|del L[i:j]|
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Mutability of objects}
+  \begin{itemize}
+    \item Immutable objects get created and destroyed upon assignment and collection
+      \begin{itemize}
+        \item Strings
+        \item Numbers
+        \item Tuples
+      \end{itemize}
+    \item Mutabale objects create references to objects upon assignment
+      \begin{itemize}
+        \item Lists
+        \item Dictionaries
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Loops}
+  \begin{itemize}
+    \item Iterate over any sequence
+      \begin{itemize}
+        \item string, list, keys in dictionary, lines in file\\
+  \begin{lstlisting}[language=python]
+vowels = 'aeiouy'
+for i in 'orbital':
+    if i in vowels:
+        print(i)
+\end{lstlisting}
+\end{itemize}
+  \item Keep the counter\\
+\begin{lstlisting}[language=python]
+shells = ('s', 'p', 'd', 'f')
+for index, thisShell in enumerate(shells):
+    print index, thisShell
+    \end{lstlisting}
+  \item List comprehension\\
+\begin{lstlisting}[language=python]
+L3 = [i**3 for i in range(4)]
+\end{lstlisting}
+\begin{itemize}
+  \item {\tt range(start,stop,stride)}
+    \begin{itemize}
+      \item end point is omitted
+    \end{itemize}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{Review $\pi$}
   \begin{equation*}

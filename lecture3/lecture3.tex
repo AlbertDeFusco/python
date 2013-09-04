@@ -40,32 +40,54 @@
 
 
 \frame{\titlepage}
+\begin{frame}
+  \frametitle{Modules}
+  \begin{itemize}
+    \item Import {\tt math.py} such that {\tt math} becomes the object name\\
+      \lstinline[language=python]|import math|\\
+      \lstinline[language=python]|print math.pi|\\
+      \lstinline[language=python]|print math.sin(math.pi)|
+    \item Alternatives
+      \begin{itemize}
+        \item \lstinline[language=python]|from math import sin|
+        \item \lstinline[language=python]|import math as maths|
+      \end{itemize}
+    \item Avoid
+      \begin{itemize}
+        \item \lstinline[language=python]|from math import *|
+      \end{itemize}
+  \end{itemize}
+  \vskip1cm
+{\it If you can imagine it, someone probably has a module that can do it.}\\
+{\scriptsize \url{http://docs.python.org/2/py-modindex.html}}\\
+{\scriptsize \url{http://wiki.python.org/moin/UsefulModules}}\\
+\end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{The Davidson Algorithm}
-  \begin{equation*}
-    \mathbf{Hc}^k = \lambda^k\mathbf{c}^k
-  \end{equation*}
-  \begin{enumerate}
-    \item Guess an orthonormal subspace $\{\mathbf{b}_1,\mathbf{b}_2\}$
-    \item Form and diagonalize the subspace matrix $\mathbf{G}$
-      \begin{eqnarray*}
-        \mathbf{G}_{ij} &=& \mathbf{b}_i^T\mathbf{Gb}_j\\
-        \mathbf{G}\boldsymbol{\alpha}^k &=&  \rho^k\boldsymbol{\alpha}^k
-      \end{eqnarray*}
-    \item Compute the residue and correction vector for each state
-      \begin{eqnarray*}
-        \mathbf{r}^k &=& \sum_{i}\boldsymbol{\alpha}^k\left(\mathbf{Hb}_i - \rho^k\mathbf{b}_i\right)\\
-        \boldsymbol{\delta}^k &=& -\left(\mathbf{D}-\rho^k\mathbf{I}\right)^{-1}\mathbf{r}^k
-        \end{eqnarray*}
-      \item Orthogonalize $\boldsymbol{\delta}^k$ to $\{\mathbf{b}\}$ and append to $\{\mathbf{b}\}$
-      \item Goto 2 until $\rho^k$ is converged
-        \begin{eqnarray*}
-          \lambda^k &\approx& \rho^k\\
-          \mathbf{c}^k &\approx& \sum_i\boldsymbol{\alpha}_i^k\mathbf{b}_i
-        \end{eqnarray*}
-  \end{enumerate}
+  \frametitle{Receiving Input}
+  \begin{lstlisting}[language=python]
+import sys
+
+try:
+  inputXYZ = open(sys.argv[1],'r')
+except:
+  print "Please specify a file name"
+  sys.exit(1)
+
+try:
+  nAtoms = int(inputXYZ.readline())
+except ValueError:
+  print "The first line is not an integer"
+  sys.exit(1)
+
+comment = inputXYZ.readline()
+print comment
+
+Atoms = [tuple(thisAtom.split()[0:4]) for thisAtom in inputXYZ]
+  \end{lstlisting}
+
 \end{frame}
+
 
 \begin{frame}[fragile]
   \frametitle{Classes}
