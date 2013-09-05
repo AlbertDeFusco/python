@@ -67,6 +67,8 @@ compiled code
   \begin{itemize}
     \item efficient
       \begin{itemize}
+        \item rich features built in
+        \item clean syntax
         \item focus shifts to ``algorithm'' and away from implementation
       \end{itemize}
   \end{itemize}
@@ -76,8 +78,13 @@ compiled code
   \begin{itemize}
     \item extendible
       \begin{itemize}
-        \item Easily add new functionality
+        \item Plenty of easy-to-use modules
+        \item Use C or Fortran routines directly
+          \begin{itemize}
+            \item separate interface from implementation
+          \end{itemize}
       \end{itemize}
+    \item A whole Python program can
       \begin{enumerate}
         \item read data
         \item do computation
@@ -90,15 +97,25 @@ compiled code
   \frametitle{Why use python for science?}
   \begin{itemize}
     \item a highly programmable a calculator
+    \item fast proto-typing a new algorithm or program design
+    \item many science and mathematics modules already exist
   \end{itemize}
-  \begin{lstlisting}[language=python]
-  import numpy
-  a1=numpy.empty( (500,500) )
-  a2=numpy.empty( (500,500) )
-  a3=a1*a2
-\end{lstlisting}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Development Environment}
+  \begin{columns}
+    \begin{column}{0.5\paperwidth}
+      \begin{itemize}
+        \item Frank
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\paperwidth}
+      \centering
+      \includegraphics[width=0.48\paperwidth]{figures/frank}
+    \end{column}
+  \end{columns}
+\end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Read the documentation}
@@ -111,12 +128,6 @@ compiled code
 \end{frame}
 
 
-\begin{frame}
-  \frametitle{Development Environment}
-  \begin{itemize}
-    \item Frank
-  \end{itemize}
-\end{frame}
 
 
 \begin{frame}[fragile]
@@ -128,28 +139,38 @@ http://wiki.python.org/moin/Python2orPython3
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Python objects, types and values}
+\begin{frame}
+  \frametitle{Python syntax}
   \begin{itemize}
-    \item Variables are just ``pointers'' to {\tt objects}
+    \item Extremely simplified syntax
       \begin{itemize}
-        \item {\it everything} is an {\tt object}
-        \item Not all objects have methods or are subclassable
-        \item All objects can be passed to functions.
-        \item Every object has a unique ``id''
-          \begin{itemize}
-            \item The ``is'' operator determines if variables point to the same object
-          \end{itemize}
+        \item nearly devoid of special characters
       \end{itemize}
-    \item Object types in python are mostly implicit
-    \item The type of the {\tt object} to which a variable points can change during the program
+    \item Implicit types
+      \begin{itemize}
+        \item It is the responsibility of the programmer
+        \item Types can change
+      \end{itemize}
   \end{itemize}
 \end{frame}
 
-
+\begin{frame}[fragile]
+  \frametitle{Python objects}
+  \begin{itemize}
+    \item All data in Python is represented by objects
+    \item Objects have
+      \begin{itemize}
+        \item an identity
+        \item a type
+        \item a value
+        \item a name (``variable'')
+      \end{itemize}
+    \item Variables are names assigned to {\tt objects}
+  \end{itemize}
+\end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Numerical types}
+  \frametitle{Numerical objects}
   \begin{itemize}
     \item Integers
       \begin{itemize}
@@ -158,7 +179,7 @@ http://wiki.python.org/moin/Python2orPython3
     \item Floats
       \begin{itemize}
         \item \lstinline[language=python]|a = 1.0|
-        \item {\tt numpy} provides precision control
+        %\item {\tt numpy} provides precision control
       \end{itemize}
     \item Complex numbers
       \begin{itemize}
@@ -183,17 +204,28 @@ http://wiki.python.org/moin/Python2orPython3
 \end{frame}
 
 \begin{frame}
-  \frametitle{Hands-on 1: Typecasting}
+  \frametitle{Logicals}
+  \begin{itemize}
+    \item Boolean type
+      \begin{itemize}
+        \item \lstinline[language=python]|a = (3 > 4)|
+      \end{itemize}
+    \item Comparisons
+      \begin{itemize}
+        \item \lstinline[language=python]|==|
+        \item \lstinline[language=python]|!=,<>|
+        \item \lstinline[language=python]|>|
+        \item \lstinline[language=python]|<|
+        \item \lstinline[language=python]|<=|
+        \item \lstinline[language=python]|>=|
+      \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Other useful types}
+  \frametitle{Logical operations}
   \begin{itemize}
-    \item Boolean
-      \begin{itemize}
-        \item \lstinline[language=python]|a = (3 > 4)|
-        \item \lstinline[language=python]|not|, \lstinline[language=python]|and|, \lstinline[language=python]|or|
-      \end{itemize}
+    \item \lstinline[language=python]|not|, \lstinline[language=python]|and|, \lstinline[language=python]|or|
   \end{itemize}
 \end{frame}
 
@@ -224,16 +256,13 @@ http://wiki.python.org/moin/Python2orPython3
 \end{frame}
 
 \begin{frame}
-  \frametitle{Printing information}
-  \begin{itemize}
-    \item print anything using \lstinline[language=python]|print|
-    \item separate objects with \lstinline[language=python]|,|
-    \item newline: \lstinline[language=python]|\\n|
-  \end{itemize}
+  \frametitle{Assignments}
 \end{frame}
 
+
+
 \begin{frame}[fragile]
-  \frametitle{Formatted printing}
+  \frametitle{Formatted strings}
   \begin{itemize}
     \item printing with placeholders
       \begin{table}
@@ -266,6 +295,34 @@ is located at the height of %.2f m.
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Printing information}
+  \begin{itemize}
+    \item print anything using \lstinline[language=python]|print|
+    \item separate objects with \lstinline[language=python]|,|
+    \item newline: \lstinline[language=python]|\\n|
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Simple loops}
+  \begin{itemize}
+    \item \lstinline[language=python]|range(start,stop,step)|
+      \begin{itemize}
+        \item list of integers from start to stop-1 in step increments
+        \item End point is always omitted
+      \end{itemize}
+  \end{itemize}
+\begin{lstlisting}
+for i in range(4):
+  print i
+-----------------
+0
+1
+2
+3
+\end{lstlisting}
+\end{frame}
 
 \begin{frame}
   \frametitle{Mathematical Exercise}
