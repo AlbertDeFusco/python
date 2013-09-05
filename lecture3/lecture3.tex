@@ -40,6 +40,63 @@
 
 
 \frame{\titlepage}
+
+\begin{frame}[fragile]
+  \frametitle{Functions and variables}
+  \begin{itemize}
+    \item Functions are defined in {\tt def} blocks\\
+      \begin{lstlisting}[language=python]
+def pi(i):
+  """Compute the ith term of the Wallis formula"""
+  return 4.*i**2 / (4.*i**2 - 1)
+
+  print pi.__doc__
+      \end{lstlisting}
+    \item Multiple returns are tuples\\
+      \begin{lstlisting}[language=python]
+def myFunction(x,y):
+  return x**2,y*4
+
+a,b = myFunction(y=2,x=8)
+      \end{lstlisting}
+    \item Functions are objects
+    \item Variables are passed by value
+    \item Types are still implicit
+    \item Global variables can be defined
+      \begin{itemize}
+        \item But not for passed variables
+        \item Globals are not good OOP practice
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Functions and mutability}
+  \begin{lstlisting}[language=python]
+>>> def try_to_modify(x, y, z):
+...     x = 23
+...     y.append(42)
+...     z = [99]
+...     print(x)
+...     print(y)
+...     print(z)
+...
+>>> a = 77
+>>> b = [99]
+>>> c = [28]
+>>> try_to_modify(a, b, c)
+23
+[99, 42]
+[99]
+>>> print(a)
+77
+>>> print(b)
+[99, 42]
+>>> print(c)
+[28]
+  \end{lstlisting}
+\end{frame}
+
 \begin{frame}
   \frametitle{Modules}
   \begin{itemize}
@@ -62,32 +119,6 @@
 {\scriptsize \url{http://docs.python.org/2/py-modindex.html}}\\
 {\scriptsize \url{http://wiki.python.org/moin/UsefulModules}}\\
 \end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Receiving Input}
-  \begin{lstlisting}[language=python]
-import sys
-
-try:
-  inputXYZ = open(sys.argv[1],'r')
-except:
-  print "Please specify a file name"
-  sys.exit(1)
-
-try:
-  nAtoms = int(inputXYZ.readline())
-except ValueError:
-  print "The first line is not an integer"
-  sys.exit(1)
-
-comment = inputXYZ.readline()
-print comment
-
-Atoms = [tuple(thisAtom.split()[0:4]) for thisAtom in inputXYZ]
-  \end{lstlisting}
-
-\end{frame}
-
 
 \begin{frame}[fragile]
   \frametitle{Classes}
