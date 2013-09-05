@@ -255,12 +255,6 @@ http://wiki.python.org/moin/Python2orPython3
   \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Assignments}
-\end{frame}
-
-
-
 \begin{frame}[fragile]
   \frametitle{Formatted strings}
   \begin{itemize}
@@ -304,6 +298,21 @@ is located at the height of %.2f m.
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Structured blocks}
+  \begin{itemize}
+    \item {\tt if}, {\tt for}, {\tt while}
+  \end{itemize}
+\begin{lstlisting}
+if (a>b):
+  print 'a is bigger'
+else if (b>a):
+  print 'big is bigger'
+else
+  print 'a must equal b'
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{Simple loops}
   \begin{itemize}
@@ -325,12 +334,22 @@ for i in range(4):
 \end{frame}
 
 \begin{frame}
-  \frametitle{Mathematical Exercise}
+  \frametitle{Mathematical Exercise 2}
+  Compute a table of temperature conversion
+  \vskip1cm
+  \begin{equation*}
+    C = \frac{5}{9}\left(F - 32\right)
+  \end{equation*}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Mathematical Exercise 1}
   Compute Pi using the Wallis formula
   \vskip1cm
   \begin{equation*}
     \pi = 2\prod^{\infty}_{i=1}\frac{4i^2}{4i^2-1}
   \end{equation*}
 \end{frame}
+
 
 \end{document}
