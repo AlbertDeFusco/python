@@ -11,6 +11,7 @@
 \usepackage[T1]{fontenc}
 
 \lstset{
+    language=Python,
     basicstyle=\footnotesize,
     keywordstyle=\color[rgb]{0.1,0.8,0.1}\bfseries,
     commentstyle=\color{blue},
@@ -40,17 +41,98 @@
 \date{\today}
 \frame{\titlepage}
 
-\begin{frame}
-  \frametitle{Computer programming}
-    assembly
+\begin{frame}[fragile]
+  \frametitle{Computer programming: Dot Product}
+  {\scriptsize
+  \begin{equation*}
+    \mathbf{a}\cdot\mathbf{b} = \sum_{i=1}^{n}a_ib_i
+  \end{equation*}
+}
+  \begin{columns}
+    \begin{column}{0.5\paperwidth}
+      \begin{block}{Assembler}
+\lstset{
+      basicstyle=\tiny
+    }
+  \begin{lstlisting}[language={[x86masm]Assembler}]
+global _mult3
+sum equ 16
+section .text
+_mult3:
+  push ebp
+  mov ebp,esp
+  push esi
+  push edi
+  sub esp, 4
+  mov esi, [ebp+12]
+  mov edi, [ebp+8]
+  mov dword [ebp-sum], 0
+  mov ecx, 3
+.forloop:
+  mov eax, [edi]
+  imul dword [esi]
+  add edi, 4
+  add esi, 4
+  add [ebp-sum], eax
+  loop .forloop
+  mov eax, [ebp-sum]
+  add esp, 4
+  pop edi
+  pop esi
+  pop ebp
+  ret
+\end{lstlisting}
+\end{block}
+\end{column}
+\begin{column}{0.35\paperwidth}
+  \begin{block}{C source\footnotemark}
+\lstset{
+      basicstyle=\tiny
+    }
+  \begin{lstlisting}[language=C]
+int mult3( int *dst, int *src)
+{
+  int sum = 0, i;
+
+  for (i = 0; i < 3; i++)
+    sum += dst[i] * src[i];
+
+  return sum;
+}
+
+int main(void)
+{
+  int d[3] = { 1, 2, 3};
+  int s[3] = {8, 9, 10 };
+
+  printf(``answer is %i\n'', mult3(d, s) );
+  return 0;
+}
+      \end{lstlisting}
+    \end{block}
+    \end{column}
+  \end{columns}
+  {\tiny \footnotetext{\tiny The first compiler was written by Grace Hopper in 1952 for the A-0 language}}
 \end{frame}
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Computer programming}
-compiled code
-\end{frame}
-\begin{frame}
-  \frametitle{Computer programming}
-  interpreted code
+  {\scriptsize
+  \begin{equation*}
+    \mathbf{a}\cdot\mathbf{b} = \sum_{i=1}^{n}a_ib_i
+  \end{equation*}
+}
+\lstset{
+      basicstyle=\footnotesize
+    }
+  \begin{block}{Python}
+    \begin{lstlisting}[language=Python]
+import numpy
+dist = numpy.array([1,2,3])
+src  = numpy.array([8,9,10])
+
+print dist.dot(src)
+\end{lstlisting}
+\end{block}
 \end{frame}
 
 \begin{frame}
@@ -84,16 +166,10 @@ compiled code
             \item separate interface from implementation
           \end{itemize}
       \end{itemize}
-    \item A whole Python program can
-      \begin{enumerate}
-        \item read data
-        \item do computation
-        \item visualize results
-      \end{enumerate}
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{Why use python for science?}
   \begin{itemize}
     \item a highly programmable a calculator
@@ -102,12 +178,16 @@ compiled code
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Development Environment}
   \begin{columns}
     \begin{column}{0.5\paperwidth}
       \begin{itemize}
         \item Frank
+          \begin{enumerate}
+            \item Launch Putty
+            \item Connect to {\tt frank.sam.pitt.edu}
+          \end{enumerate}
       \end{itemize}
     \end{column}
     \begin{column}{0.5\paperwidth}
@@ -174,33 +254,48 @@ http://wiki.python.org/moin/Python2orPython3
   \begin{itemize}
     \item Integers
       \begin{itemize}
-        \item \lstinline[language=python]|a = 1|
+        \item \lstinline[language=Python]|a = 1|
       \end{itemize}
     \item Floats
       \begin{itemize}
-        \item \lstinline[language=python]|a = 1.0|
+        \item \lstinline[language=Python]|a = 1.0|
         %\item {\tt numpy} provides precision control
       \end{itemize}
     \item Complex numbers
       \begin{itemize}
-        \item \lstinline[language=python]|a = 1.5 + 0.5j|
-        \item \lstinline[language=python]|a.real| and \lstinline[language=python]|a.imag| return each component
+        \item \lstinline[language=Python]|a = 1.5 + 0.5j|
+        \item \lstinline[language=Python]|a.real| and \lstinline[language=Python]|a.imag| return each component
       \end{itemize}
     \item Type casts
       \begin{itemize}
-        \item \lstinline[language=python]|myFloat = float(myInteger)|
-        \item \lstinline[language=python]|myInt = int(myFloat)|
+        \item \lstinline[language=Python]|myFloat = float(myInteger)|
+        \item \lstinline[language=Python]|myInt = int(myFloat)|
       \end{itemize}
     \item Operators
       \begin{itemize}
-        \item Addition \lstinline[language=python]|+|
-        \item Subtraction \lstinline[language=python]|-|
-        \item Multiplication \lstinline[language=python]|*|
-        \item Exponentiation \lstinline[language=python]|**|
-        \item Division \lstinline[language=python]|/|
-        \item Modulus \lstinline[language=python]|%|
+        \item Addition \lstinline[language=Python]|+|
+        \item Subtraction \lstinline[language=Python]|-|
+        \item Multiplication \lstinline[language=Python]|*|
+        \item Exponentiation \lstinline[language=Python]|**|
+        \item Division \lstinline[language=Python]|/|
+        \item Modulus \lstinline[language=Python]|%|
       \end{itemize}
   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Mathematical functions}
+  \begin{itemize}
+    \item many functions exist with the {\tt math} module
+  \end{itemize}
+  \begin{lstlisting}[language=Python]
+import math
+
+help(math)
+
+print math.cos(0)
+print math.pi
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}
@@ -208,16 +303,16 @@ http://wiki.python.org/moin/Python2orPython3
   \begin{itemize}
     \item Boolean type
       \begin{itemize}
-        \item \lstinline[language=python]|a = (3 > 4)|
+        \item \lstinline[language=Python]|a = (3 > 4)|
       \end{itemize}
     \item Comparisons
       \begin{itemize}
-        \item \lstinline[language=python]|==|
-        \item \lstinline[language=python]|!=,<>|
-        \item \lstinline[language=python]|>|
-        \item \lstinline[language=python]|<|
-        \item \lstinline[language=python]|<=|
-        \item \lstinline[language=python]|>=|
+        \item \lstinline[language=Python]|==|
+        \item \lstinline[language=Python]|!=,<>|
+        \item \lstinline[language=Python]|>|
+        \item \lstinline[language=Python]|<|
+        \item \lstinline[language=Python]|<=|
+        \item \lstinline[language=Python]|>=|
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -225,18 +320,20 @@ http://wiki.python.org/moin/Python2orPython3
 \begin{frame}
   \frametitle{Logical operations}
   \begin{itemize}
-    \item \lstinline[language=python]|not|, \lstinline[language=python]|and|, \lstinline[language=python]|or|
+    \item \lstinline[language=Python]|not|, \lstinline[language=Python]|and|, \lstinline[language=Python]|or|
+    \item be careful with assignments
   \end{itemize}
 \end{frame}
+
 
 \begin{frame}[fragile]
   \frametitle{Strings}
   \begin{itemize}
-    \item \lstinline[language=python]|a = 'single quoted'|
-    \item \lstinline[language=python]|a = "double quoted"|
+    \item \lstinline[language=Python]|a = 'single quoted'|
+    \item \lstinline[language=Python]|a = "double quoted"|
     \item Triple quotes preserve whitespace and newlines
   \end{itemize}
-      \begin{lstlisting}[language=python]
+      \begin{lstlisting}[language=Python]
       a = """triple
       quoted
       string"""
@@ -249,23 +346,24 @@ http://wiki.python.org/moin/Python2orPython3
 \begin{frame}
   \frametitle{String operations}
   \begin{itemize}
-    \item \lstinline[language=python]|doubleA = float(a)|
-    \item \lstinline[language=python]|intA = int(a)|
-    \item \lstinline[language=python]|wordList = a.split()|
+    \item \lstinline[language=Python]|doubleA = float(a)|
+    \item \lstinline[language=Python]|intA = int(a)|
+    \item \lstinline[language=Python]|wordList = a.split()|
+    \item \lstinline[language=Python]|concatenated = a + b|
   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Formatted strings}
   \begin{itemize}
-    \item printing with placeholders
+    \item width placeholders
       \begin{table}
         \begin{tabular}{cl}
-          \lstinline[language=python]|\%s| & string\\
-          \lstinline[language=python]|\%d| & integer\\
-          \lstinline[language=python]|\%f| & float with 6 decimals\\
-          \lstinline[language=python]|\%E| & scientific notation\\
-          \lstinline[language=python]|\%\%| & the \% sign
+          \lstinline[language=Python]|\%s| & string\\
+          \lstinline[language=Python]|\%d| & integer\\
+          \lstinline[language=Python]|\%f| & float with 6 decimals\\
+          \lstinline[language=Python]|\%E| & scientific notation\\
+          \lstinline[language=Python]|\%\%| & the \% sign
         \end{tabular}
       \end{table}
     \item modifiers
@@ -276,34 +374,20 @@ http://wiki.python.org/moin/Python2orPython3
         \item printing long strings or large numbers will skew columns
       \end{itemize}
   \end{itemize}
-\begin{lstlisting}[langage=python]
-v0=5
-g=9.81
-t=0.6
-y=v0*t - 0.5*g*t**2
-print """
-At t=%f s, a ball with
-initial velocity v0=%.3E m/s
-is located at the height of %.2f m.
-""" % (t, v0, y)
+  \begin{lstlisting}[language=Python]
+from math import pi,e
+
+print "pi is %d and e is %d" % (pi,e)
+print "pi is %6.4f and e is %6.4f" % (pi,e)
+print "pi is %f and e is %f" % (pi,e)
+print "pi is %10.8e and e is %10.8e" % (pi,e)
+print "pi is %15.8e and e is %15.8e" % (pi,e)
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Printing information}
-  \begin{itemize}
-    \item print anything using \lstinline[language=python]|print|
-    \item separate objects with \lstinline[language=python]|,|
-    \item newline: \lstinline[language=python]|\\n|
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Structured blocks}
-  \begin{itemize}
-    \item {\tt if}, {\tt for}, {\tt while}
-  \end{itemize}
-\begin{lstlisting}
+  \begin{lstlisting}[language=Python]
 if (a>b):
   print 'a is bigger'
 else if (b>a):
@@ -314,37 +398,76 @@ else
 \end{frame}
 
 \begin{frame}[fragile]
+  \frametitle{Structured blocks}
+  \begin{lstlisting}[language=Python]
+while (i<10):
+  print i
+  i=i+1
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Structured blocks}
+  \begin{lstlisting}[language=Python]
+for i in range(4):
+  print i
+\end{lstlisting}
+\begin{itemize}
+  \item<1-> \lstinline[language=Python]|help(range)|
+  \item<2-> \lstinline[language=Python]|for| is not limited to arithmetic
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
   \frametitle{Simple loops}
   \begin{itemize}
-    \item \lstinline[language=python]|range(start,stop,step)|
+    \item \lstinline[language=Python]|range(start,stop,step)|
       \begin{itemize}
         \item list of integers from start to stop-1 in step increments
         \item End point is always omitted
       \end{itemize}
   \end{itemize}
-\begin{lstlisting}
+\begin{lstlisting}[language=Python]
 for i in range(4):
   print i
------------------
-0
-1
-2
-3
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Writing a script file}
+  \begin{itemize}
+    \item save the file to {\tt hello.py}
+  \end{itemize}
+\begin{lstlisting}[language=Python]
+#/usr/bin/env python
+
+def y(x):
+  return x**2
+
+print y(18)
+\end{lstlisting}
+\begin{itemize}
+  \item run the file
+\end{itemize}
+\begin{verbatim}
+> module load python/epd-7.2
+> python hello.py
+Hello, world!
+\end{verbatim}
+\end{frame}
+
 \begin{frame}
-  \frametitle{Mathematical Exercise 2}
-  Compute a table of temperature conversion
+  \frametitle{Mathematical Exercises}
+  \begin{itemize}
+    \item Print a table of temperature conversion
+  \end{itemize}
   \vskip1cm
   \begin{equation*}
     C = \frac{5}{9}\left(F - 32\right)
   \end{equation*}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Mathematical Exercise 1}
-  Compute Pi using the Wallis formula
+  \begin{itemize}
+    \item Compute Pi using the Wallis formula
+  \end{itemize}
   \vskip1cm
   \begin{equation*}
     \pi = 2\prod^{\infty}_{i=1}\frac{4i^2}{4i^2-1}
