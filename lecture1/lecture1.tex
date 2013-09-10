@@ -105,7 +105,7 @@ int main(void)
   int d[3] = { 1, 2, 3};
   int s[3] = {8, 9, 10 };
 
-  printf(``answer is %i\n'', mult3(d, s) );
+  printf("answer is %i\n", mult3(d, s) );
   return 0;
 }
       \end{lstlisting}
@@ -138,19 +138,19 @@ print dist.dot(src)
 \begin{frame}
   \frametitle{What's so great about Python?}
   \begin{itemize}
-    \item portable
+    \item Portable
       \begin{itemize}
-        \item not the programmer's responsibility
+        \item Your program will run if the interpreter works
       \end{itemize}
   \end{itemize}
 \end{frame}
 \begin{frame}
   \frametitle{What's so great about Python?}
   \begin{itemize}
-    \item efficient
+    \item Efficient
       \begin{itemize}
-        \item rich features built in
-        \item clean syntax
+        \item rich language features built in
+        \item clean, simple syntax
         \item focus shifts to ``algorithm'' and away from implementation
       \end{itemize}
   \end{itemize}
@@ -158,12 +158,12 @@ print dist.dot(src)
 \begin{frame}
   \frametitle{What's so great about Python?}
   \begin{itemize}
-    \item extendible
+    \item Extendible
       \begin{itemize}
         \item Plenty of easy-to-use modules
         \item Use C or Fortran routines directly
           \begin{itemize}
-            \item separate interface from implementation
+            \item separate the interface from the implementation
           \end{itemize}
       \end{itemize}
   \end{itemize}
@@ -172,9 +172,10 @@ print dist.dot(src)
 \begin{frame}
   \frametitle{Why use python for science?}
   \begin{itemize}
-    \item a highly programmable a calculator
-    \item fast proto-typing a new algorithm or program design
-    \item many science and mathematics modules already exist
+    \item A highly programmable a calculator
+    \item Fast proto-typing a new algorithm or program design
+    \item Can create an easily programmable interface to many more complex programs
+    \item Many science and mathematics modules already exist
   \end{itemize}
 \end{frame}
 
@@ -386,6 +387,26 @@ print "pi is %15.8e and e is %15.8e" % (pi,e)
 \end{frame}
 
 \begin{frame}[fragile]
+  \frametitle{Writing a script file}
+  \begin{itemize}
+    \item save the file to {\tt hello.py}
+  \end{itemize}
+\begin{lstlisting}[language=Python]
+#/usr/bin/env python
+
+print 'Hello, world!'
+\end{lstlisting}
+\begin{itemize}
+  \item run the file
+\end{itemize}
+\begin{verbatim}
+> module load python/epd-7.2
+> python hello.py
+324
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
   \frametitle{Structured blocks}
   \begin{lstlisting}[language=Python]
 if (a>b):
@@ -413,8 +434,7 @@ for i in range(4):
   print i
 \end{lstlisting}
 \begin{itemize}
-  \item<1-> \lstinline[language=Python]|help(range)|
-  \item<2-> \lstinline[language=Python]|for| is not limited to arithmetic
+  \item \lstinline[language=Python]|for| is not limited to arithmetic
 \end{itemize}
 \end{frame}
 
@@ -434,26 +454,19 @@ for i in range(4):
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Writing a script file}
+  \frametitle{Simple Functions}
   \begin{itemize}
-    \item save the file to {\tt hello.py}
+    \item Simplify your program
+    \item Easier debugging
+    \item Improved elegance
+      \begin{itemize}
+        \item Functions behave like any other variable
+      \end{itemize}
   \end{itemize}
 \begin{lstlisting}[language=Python]
-#/usr/bin/env python
-
 def y(x):
   return x**2
-
-print y(18)
-\end{lstlisting}
-\begin{itemize}
-  \item run the file
-\end{itemize}
-\begin{verbatim}
-> module load python/epd-7.2
-> python hello.py
-Hello, world!
-\end{verbatim}
+  \end{lstlisting}
 \end{frame}
 
 \begin{frame}
