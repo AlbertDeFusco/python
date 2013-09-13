@@ -1,0 +1,63 @@
+#%%%%%%%% Here are the walk through steps for lecture 1.
+
+
+###Title : Python objects
+>>> a=2
+>>> id(a)
+140732014855424
+>>> type(a)
+int
+>>> print a
+2
+>>> id(2)
+140732014855424
+>>> type(2)
+int
+#just mention garbage collection in passing
+#on the command line new numbers can be created and used without names
+>>> id(3)
+140707583169016
+>>> type(5)
+int
+
+
+###Title : Numerical Object and Mathematical functions
+>>> help(int)
+>>> help(float)
+>>> help(complex)
+
+>>> import math
+>>> math.<tab>
+#explain a little about why using math module would be faster
+#integer math returns integers
+>>> 4/2
+2
+>>> 5/2
+0
+
+>>> float(5/2)
+2.0
+
+#returns correct float if operands are floats
+>>> float(5)/2
+2.5
+>>> 5/float(2)
+2.5
+
+#most math functions return floats
+>>> math.radians(180)
+3.141592653589793
+
+#demonstrate strong typing features
+#how do you know when writing a program?
+>>> a="test"
+>>> math.radians(a)
+TypeError: a float is required
+
+
+###Title : String
+>>> "hello" + "Goodbye"
+'helloGoodbye'
+
+>>> "hello" + "Goodbye" + 5
+TypeError: cannot concatenate 'str' and 'int' objects

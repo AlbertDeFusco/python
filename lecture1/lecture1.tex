@@ -10,6 +10,7 @@
 \usepackage{listings}
 \usepackage[T1]{fontenc}
 
+
 \lstset{
     language=Python,
     basicstyle=\footnotesize,
@@ -41,8 +42,10 @@
 \date{\today}
 \frame{\titlepage}
 
+\section{Computer Programming}
+\frame{\sectionpage}
 \begin{frame}[fragile]
-  \frametitle{Computer programming: Dot Product}
+  \frametitle{} %Computer programming: Dot Product}
   {\scriptsize
   \begin{equation*}
     \mathbf{a}\cdot\mathbf{b} = \sum_{i=1}^{n}a_ib_i
@@ -114,8 +117,9 @@ int main(void)
   \end{columns}
   {\tiny \footnotetext{\tiny The first compiler was written by Grace Hopper in 1952 for the A-0 language}}
 \end{frame}
+
 \begin{frame}[fragile]
-  \frametitle{Computer programming}
+  \frametitle{} %Computer programming}
   {\scriptsize
   \begin{equation*}
     \mathbf{a}\cdot\mathbf{b} = \sum_{i=1}^{n}a_ib_i
@@ -136,6 +140,31 @@ print dist.dot(src)
 \end{frame}
 
 \begin{frame}
+  \frametitle{Choices}
+  \begin{columns}[c]
+    \begin{column}{0.4\paperwidth}
+      \begin{block}{Computer Time}
+        %\begin{itemize}
+        %  \item Interpret Python and run
+        %\end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.4\paperwidth}
+      \begin{block}{Programmer Time}
+        %\begin{itemize}
+        %  \item Write and Debug compiled code
+        %\end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{History of Python}
+\end{frame}
+
+\begin{frame}
   \frametitle{What's so great about Python?}
   \begin{itemize}
     \item Portable
@@ -150,8 +179,20 @@ print dist.dot(src)
     \item Efficient
       \begin{itemize}
         \item rich language features built in
-        \item clean, simple syntax
+        \item simple syntax for ease of reading
         \item focus shifts to ``algorithm'' and away from implementation
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{What's so great about Python?}
+  \begin{itemize}
+    \item Flexible
+      \begin{itemize}
+        \item Supports multiple programming paradigms
+        \item Imperative
+        \item Functional
+        \item Object-oriented
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -165,6 +206,7 @@ print dist.dot(src)
           \begin{itemize}
             \item separate the interface from the implementation
           \end{itemize}
+        \item Your program can adjust the way the interpreter works
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -172,7 +214,7 @@ print dist.dot(src)
 \begin{frame}
   \frametitle{Why use python for science?}
   \begin{itemize}
-    \item A highly programmable a calculator
+    \item A highly programmable calculator
     \item Fast proto-typing a new algorithm or program design
     \item Can create an easily programmable interface to many more complex programs
     \item Many science and mathematics modules already exist
@@ -208,9 +250,6 @@ print dist.dot(src)
 \end{verbatim}
 \end{frame}
 
-
-
-
 \begin{frame}[fragile]
   \frametitle{Disclaimer}
   Python 2.7 $!=$ 3.0
@@ -225,12 +264,13 @@ http://wiki.python.org/moin/Python2orPython3
   \begin{itemize}
     \item Extremely simplified syntax
       \begin{itemize}
-        \item nearly devoid of special characters
+        \item Nearly devoid of special characters
+        \item Intended to be nearly English
       \end{itemize}
-    \item Implicit types
+    \item Dynamic types
       \begin{itemize}
         \item It is the responsibility of the programmer
-        \item Types can change
+        \item Still ``strongly typed''
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -249,6 +289,9 @@ http://wiki.python.org/moin/Python2orPython3
     \item Variables are names assigned to {\tt objects}
   \end{itemize}
 \end{frame}
+
+\section{Hands-on Python}
+\frame{\sectionpage}
 
 \begin{frame}[fragile]
   \frametitle{Numerical objects}
@@ -347,10 +390,17 @@ print math.pi
 \begin{frame}
   \frametitle{String operations}
   \begin{itemize}
-    \item \lstinline[language=Python]|doubleA = float(a)|
-    \item \lstinline[language=Python]|intA = int(a)|
-    \item \lstinline[language=Python]|wordList = a.split()|
+    \item Typecasting
+      \begin{itemize}
+        \item \lstinline[language=Python]|doubleA = float(a)|
+        \item \lstinline[language=Python]|intA = int(a)|
+      \end{itemize}
+    \item Comparisons return a Boolean
+      \begin{itemize}
+        \item \lstinline[language=Python]|A == B|
+      \end{itemize}
     \item \lstinline[language=Python]|concatenated = a + b|
+    %\item \lstinline[language=Python]|wordList = a.split()|
   \end{itemize}
 \end{frame}
 
@@ -394,6 +444,7 @@ print "pi is %15.8e and e is %15.8e" % (pi,e)
 \begin{lstlisting}[language=Python]
 #/usr/bin/env python
 
+#This is my comment about the following script
 print 'Hello, world!'
 \end{lstlisting}
 \begin{itemize}
@@ -421,6 +472,7 @@ else
 \begin{frame}[fragile]
   \frametitle{Structured blocks}
   \begin{lstlisting}[language=Python]
+i=0
 while (i<10):
   print i
   i=i+1
