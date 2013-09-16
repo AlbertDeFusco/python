@@ -162,6 +162,31 @@ print dist.dot(src)
 
 \begin{frame}
   \frametitle{History of Python}
+  \begin{itemize}
+    \item December 1989
+      \begin{itemize}
+        \item Implementation by Guido van Rossum as successor of ABC to provide exception handling
+      \end{itemize}
+    \item February 1991
+      \begin{itemize}
+        \item Python 0.9.0 had classes with inheritance, exception handling, functions, and the core datatypes
+      \end{itemize}
+    \item January 1994
+      \begin{itemize}
+        \item Version 1.0 has functional programming features
+      \end{itemize}
+    \item October 2000
+      \begin{itemize}
+        \item Python 2.0 brings garbage collections
+        \item Python 2.2 improves Python's types to be purely object oriented
+      \end{itemize}
+    \item December 2008
+      \begin{itemize}
+        \item Python 3
+        \item {\it Reduce feature duplication by removing old ways of doing things}
+        \item Not backwards compatible with Python 2.x
+      \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -169,7 +194,7 @@ print dist.dot(src)
   \begin{itemize}
     \item Portable
       \begin{itemize}
-        \item Your program will run if the interpreter works
+        \item Your program will run if the interpreter works and the modules are installed
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -178,9 +203,9 @@ print dist.dot(src)
   \begin{itemize}
     \item Efficient
       \begin{itemize}
-        \item rich language features built in
-        \item simple syntax for ease of reading
-        \item focus shifts to ``algorithm'' and away from implementation
+        \item Rich language features built in
+        \item Simple syntax for ease of reading
+        \item Focus shifts to ``algorithm'' and away from implementation
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -189,10 +214,9 @@ print dist.dot(src)
   \begin{itemize}
     \item Flexible
       \begin{itemize}
-        \item Supports multiple programming paradigms
         \item Imperative
-        \item Functional
         \item Object-oriented
+        \item Functional
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -202,10 +226,10 @@ print dist.dot(src)
     \item Extendible
       \begin{itemize}
         \item Plenty of easy-to-use modules
-        \item Use C or Fortran routines directly
           \begin{itemize}
-            \item separate the interface from the implementation
+            \item {\it If you can imagine it, then someone has probably developed a module for it}
           \end{itemize}
+        %\item separate the interface from the implementation
         \item Your program can adjust the way the interpreter works
       \end{itemize}
   \end{itemize}
@@ -215,8 +239,9 @@ print dist.dot(src)
   \frametitle{Why use python for science?}
   \begin{itemize}
     \item A highly programmable calculator
-    \item Fast proto-typing a new algorithm or program design
-    \item Can create an easily programmable interface to many more complex programs
+    \item Fast proto-typing new algorithms or program design
+    %\item Can create an easily programmable interface to many more complex programs
+    \item Use C or Fortran routines directly
     \item Many science and mathematics modules already exist
   \end{itemize}
 \end{frame}
@@ -229,7 +254,7 @@ print dist.dot(src)
         \item Frank
           \begin{enumerate}
             \item Launch Putty
-            \item Connect to {\tt frank.sam.pitt.edu}
+            \item Connect to {\tt login0a.frank.sam.pitt.edu}
           \end{enumerate}
       \end{itemize}
     \end{column}
@@ -284,10 +309,11 @@ http://wiki.python.org/moin/Python2orPython3
         \item an identity
         \item a type
         \item a value
-        \item a name (``variable'')
+        \item a name (``variable'')\footnotemark
       \end{itemize}
     \item Variables are names assigned to {\tt objects}
   \end{itemize}
+  {\tiny \footnotetext{\url{http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html\#other-languages-have-variables}}}
 \end{frame}
 
 \section{Hands-on Python}
@@ -361,13 +387,6 @@ print math.pi
   \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Logical operations}
-  \begin{itemize}
-    \item \lstinline[language=Python]|not|, \lstinline[language=Python]|and|, \lstinline[language=Python]|or|
-    \item be careful with assignments
-  \end{itemize}
-\end{frame}
 
 
 \begin{frame}[fragile]
@@ -453,7 +472,7 @@ print 'Hello, world!'
 \begin{verbatim}
 > module load python/epd-7.2
 > python hello.py
-324
+Hello, world!
 \end{verbatim}
 \end{frame}
 
@@ -467,6 +486,19 @@ else if (b>a):
 else
   print 'a must equal b'
 \end{lstlisting}
+\begin{itemize}
+  \item<2-> Why is it indented?
+\end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Logical operations}
+  \begin{itemize}
+    \item \lstinline[language=Python]|not|, \lstinline[language=Python]|and|, \lstinline[language=Python]|or|
+    \item be careful with assignments
+      \begin{itemize}
+        \item Just use if statements
+      \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -511,14 +543,35 @@ for i in range(4):
     \item Simplify your program
     \item Easier debugging
     \item Improved elegance
-      \begin{itemize}
-        \item Functions behave like any other variable
-      \end{itemize}
   \end{itemize}
 \begin{lstlisting}[language=Python]
+import math
+def area(radius):
+  return math.pi*radius**2
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Simple Functions}
+  \begin{itemize}
+    \item Functions must be defined before being used
+    \item Arguments are passed by {\it reference to the object}\footnotemark
+      \begin{itemize}
+        \item Variables do not have values, objects do
+      \end{itemize}
+    \item Functions are first class citizens
+  \end{itemize}
+\begin{lstlisting}[language=Python]
+
 def y(x):
+  x=x+1
   return x**2
-  \end{lstlisting}
+
+x=5
+y(x)
+print x
+\end{lstlisting}
+{\tiny \footnotetext{\url{http://me.veekun.com/blog/2012/05/23/python-faq-passing/}}}
 \end{frame}
 
 \begin{frame}

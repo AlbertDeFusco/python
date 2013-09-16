@@ -61,3 +61,43 @@ TypeError: a float is required
 
 >>> "hello" + "Goodbye" + 5
 TypeError: cannot concatenate 'str' and 'int' objects
+
+
+###code blocking
+
+#would be nice to show a single example with several variables, looping and
+functions
+##if and while are not really necessary
+
+>>> y(x+5)
+100
+>>> y(y(5))
+625
+
+
+#pass by reference to object
+>>> def y2(x):
+>>>  x=x+1
+>>>  print "y2's x: %d" % (id(x))
+>>>  return x**2
+
+#assignment of function
+>>> a=y
+>>> type(a)
+function
+>>> a(x)
+36
+
+#methods of a function's return
+>>> def appender(string):
+>>>  return string + ", appended"
+>>> type(appender)
+function
+>>> appender("hello")
+'hello, appended'
+>>> type(appender("hello"))
+str
+>>> appender("hello").upper()
+'HELLO, APPENDED'
+
+
