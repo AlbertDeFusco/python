@@ -41,6 +41,61 @@
 
 \frame{\titlepage}
 
+\begin{frame}
+  \frametitle{Functions}
+  \begin{itemize}
+    \item Doc strings
+    \item Default values
+    \item Optional arguments
+    \item Returns
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Functions}
+\begin{lstlisting}[language=Python]
+def divide(x,y):
+  """Divide takes two integers as input
+  returns a tupe of quotient and remainder"""
+  return x/y,x%y
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Mathematical Exercises}
+  \begin{itemize}
+    \item Write a function to differentiate another function
+  \end{itemize}
+\begin{equation*}
+  f^{\prime}(x) \approx \frac{f(x+h) - f(x-h)}{2h}
+\end{equation*}
+\begin{itemize}
+  \item<2-> $f(x)$ and $h$ are arguments
+    \begin{itemize}
+      \item make $h=0.01$ the default value
+    \end{itemize}
+  \item<2-> Practice with the following functions
+    \begin{itemize}
+      \item $f(x) = x^2$ at $x=1$
+      \item $f(x) = cos(x)$ at $x=2\pi$
+      \item $f(x) = e^{-2x^2}$ at $x=0$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{recursions}
+  \begin{equation*}
+    n! = \prod_{k=1}^n k
+  \end{equation*}
+\begin{lstlisting}[language=Python]
+def factorial(n):
+  if(n==0):
+    return 1
+  return n*factorial(n-1)
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{Functions and variables}
   \begin{itemize}
@@ -190,5 +245,30 @@ class Polymer(Molecule):
   $^\dagger${\scriptsize Polymorphism in Python is achieved when classes implement the same methods, which reduces the number of {\tt if} statements}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Error handling}
+  \begin{itemize}
+    \item unix return codes
+    \item stderr
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exception Object}
+  \begin{itemize}
+    \item Exceptions represent errors
+    \item Exceptions are built-in at the lowest level
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Checking for errors}
+  \begin{itemize}
+    \item avoid checking (if) for all possible errors
+  \end{itemize}
+  \begin{lstlisting}[language=Python]
+def celcius(tempF):
+\end{lstlisting}
+\end{frame}
 
 \end{document}
