@@ -34,98 +34,161 @@
 
 \begin{document}
 
-\title{Python: beyond the basics}
-\author{Albert DeFusco}
+\title{Python for Scientific Computing}
+\subtitle{Lecture 2: Data Structures}
+\author{Albert DeFusco\\Center for Simulation and Modeling}
 \date{\today}
-
-
 \frame{\titlepage}
 
 \begin{frame}
-  \frametitle{Containers (sequence)}
-  All are indexed starting at 0 and are arguments for {\tt len()}
+  \frametitle{Download your own Python}
+  \url{https://www.enthought.com/products/epd/free/}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Review $\pi$}
+  \begin{equation*}
+    \pi = 2\prod^{\infty}_{i=1}\frac{4i^2}{4i^2-1}
+  \end{equation*}
+  \pause
+\begin{lstlisting}[language=Python]
+pi = 2.
+for i in range(1,n):
+  pi *= 4.*i**2 / (4.*i**2 - 1)
+print pi
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Containers}
   \begin{itemize}
-    \item one-dimensional list
+    \item tuples, lists and strings
+  \begin{itemize}
+    \item Elements are accessed with {\tt container[ ]}
       \begin{itemize}
-        \item \lstinline[language=python]|List = ['red','green','blue']|
-        \item \lstinline[language=python]|type(L[1])| returns {\tt <type 'str'>}
-        \item Resizable with \lstinline[language=python]|L.append('ultraviolet')| or \lstinline[language=python]|L.insert(0,'infrared')|
-        \item ``\lstinline[language=python]|+|'' will concatenate lists!
-        \item Generally homogeneous data
-        \item Lists are not arrays
+        \item Indexed starting at 0
       \end{itemize}
-    \item Tuples
+    \item Arguments for {\tt len(container)}
+    \item Each type has special features
+    %\item Iterated with {\tt iter(container)}
+  \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Tuples}
+  \begin{itemize}
+    \item \lstinline[language=Python]|Tuple = (1,3.,'red')|
+    \item Contain {\it references} to other objects
+    \item The structure cannot be changed
+    \item A convenient way to pass multiple objects
       \begin{itemize}
-        \item \lstinline[language=python]|Tuple = (1,[3.,5.,7.],'red')|
-        \item Generally inhomogeneous data
-        \item There is no append or insert
+        \item Packing and un-packing
       \end{itemize}
-    \item Dictionaries
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Lists}
+  \begin{itemize}
+    \item \lstinline[language=Python]|List = ['red','green','blue']|
+    %\item \lstinline[language=Python]|type(L[1])| returns {\tt <type 'str'>}
+    \item Resizable %with \lstinline[language=Python]|L.append('ultraviolet')| or \lstinline[language=Python]|L.insert(0,'infrared')|
+    %\item ``\lstinline[language=Python]|+|'' will concatenate lists!
+    \item List-of-Lists is a multi-dimensional list
+    \item Lists are not arrays
+    \item {\tt range()} is a list
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Dictionaries}
       \begin{itemize}
         \item Key - value pairs\\
-          \lstinline[language=python]|Elements = \{'Oxygen': 8, 'Hydrogen': 1\}|\\
-          \lstinline[language=python]|Elements['Carbon'] = 6|\\
+          \lstinline[language=Python]|Protons = \{'Oxygen': 8, 'Hydrogen': 1\}|\\
+          \lstinline[language=Python]|Protons['Carbon'] = 6|\\
           \begin{itemize}
-            \item \lstinline[language=python]|Elements.keys()| returns element names and \lstinline[language=python]|Elements.values()| returns Z.
+          %  \item \lstinline[language=Python]|Protons.keys()| returns element names and \lstinline[language=Python]|Protons.values()| returns nuclear charge.
             \item Any type can be a key or value
+            \item Look-up tables
+            \item Sorting and searching operations
           \end{itemize}
       \end{itemize}
-  \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Tuples or Lists?}
-  \begin{itemize}
-    \item Lists storing homogeneous elements allows expansion of the list
-      \begin{itemize}
-        \item The code does the order of elements
-        \item Elements can be added or deleted
-        \item Used for iteration
-      \end{itemize}
-      \vskip1cm
-    \item Tuples storing inhomogeneous elements are like {\tt structs}
-      \begin{itemize}
-        \item Code written for tuples {\it requires} knowledge of the tuple
-        \item Generally just a convenience container
-      \end{itemize}
-      \vskip1cm
-    \item In somcases mutability will be important
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Container operations}
+  \frametitle{Indexing Lists and tuples}
   \begin{itemize}
     \item Slicing just like Fortran 90\\
-      \lstinline[language=python]|L[start:stop:stride]|\\
+      \lstinline[language=Python]|L[start:stop:stride]|\\
       $\mathrm{start} \leq i < \mathrm{stop}; i+=\mathrm{stride}$
     \item Negative indices start at the end of the list
       \begin{itemize}
         \item -1 is the last element
       \end{itemize}
-    \item Search for value with ``in''\\
-      \lstinline[language=python]|print (5 in L)|
-    \item Find the element with {\tt index}\\
-      \lstinline[language=python]|'string'.index('n')|
   \end{itemize}
 \end{frame}
+    %\item Slice assignment for lists\\
+    %  \lstinline[language=Python]|L[i:j] = i|
+    %\item Deletions\\
+    %  \lstinline[language=Python]|del L[i:j]|
 
 \begin{frame}[fragile]
   \frametitle{Other operations}
   \begin{itemize}
-    \item Search\\
-      \begin{lstlisting}[language=python]
-        >>> List = [1,'red',3.0,(4>3)]
-        >>> print ('red' in List)
-        True
-      \end{lstlisting}
-    \item Slice assignment\\
-      \lstinline[language=python]|L[i:j] = i|
-    \item Deletions\\
-      \lstinline[language=python]|del L[i:j]|
+    \item Search for value with {\tt in}
+    \item Concatenate with {\tt +} or {\tt *}
+    \item Count number of occurrences
+      %\lstinline[language=Python]|print (5 in L)|
+    %\item Find the element with {\tt index}\\
+    %  \lstinline[language=Python]|'string'.index('n')|
   \end{itemize}
-
 \end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Loops}
+  \begin{itemize}
+    \item Iterate over any sequence
+      \begin{itemize}
+        \item string, list, keys in dictionary, lines in file
+      \end{itemize}
+  \end{itemize}
+  \begin{lstlisting}[language=Python]
+vowels = 'aeiouy'
+for i in 'orbital':
+    if i in vowels:
+        print(i)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Loops}
+  \begin{itemize}
+    \item Keep a counter
+  \end{itemize}
+\begin{lstlisting}[language=Python]
+shells = ('s', 'p', 'd', 'f')
+for index, thisShell in enumerate(shells):
+    print index, thisShell
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Loops}
+  \begin{itemize}
+    \item List comprehension
+  \end{itemize}
+\begin{lstlisting}[language=Python]
+even = [i for i in range(100) if i%2 == 0]
+
+listX = [-1, 0, 1]
+listY = [2, 4]
+myTuple = [(x,y) for x in listX for y in listY]
+\end{lstlisting}
+\end{frame}
+
+
+
 
 \begin{frame}[fragile]
   \frametitle{Mutability of objects}
@@ -136,7 +199,7 @@
         \item Numbers (no ++ operator)
         \item Tuples
       \end{itemize}
-    \item Mutabale objects create references to objects upon assignment
+    \item Mutable objects create references to contained objects upon assignment
       \begin{itemize}
         \item Lists
         \item Dictionaries
@@ -149,50 +212,45 @@
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Loops}
+  \frametitle{Tuples or Lists?}
   \begin{itemize}
-    \item Iterate over any sequence
+    \item List: homogeneous data
       \begin{itemize}
-        \item string, list, keys in dictionary, lines in file\\
-  \begin{lstlisting}[language=python]
-vowels = 'aeiouy'
-for i in 'orbital':
-    if i in vowels:
-        print(i)
-\end{lstlisting}
-\end{itemize}
-  \item Keep the counter\\
-\begin{lstlisting}[language=python]
-shells = ('s', 'p', 'd', 'f')
-for index, thisShell in enumerate(shells):
-    print index, thisShell
-    \end{lstlisting}
-  \item List comprehension\\
-\begin{lstlisting}[language=python]
-L3 = [i**3 for i in range(4)]
-\end{lstlisting}
-\begin{itemize}
-  \item {\tt range(start,stop,stride)}
-    \begin{itemize}
-      \item end point is omitted
-    \end{itemize}
-\end{itemize}
-\end{itemize}
+        \item Elements can be added or deleted
+        \item Elements can be in any order
+        \item Mutable
+      \end{itemize}
+      \vskip1cm
+    \item Tuples: heterogeneous data ({\tt structs})
+      \begin{itemize}
+        \item Constant size
+        \item Order matters
+        \item Immutable
+      \end{itemize}
+  \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Review $\pi$}
-  \begin{equation*}
-    \pi = 2\prod^{\infty}_{i=1}\frac{4i^2}{4i^2-1}
-  \end{equation*}
+
+\begin{frame}
+  \frametitle{Container examples}
   \begin{itemize}
-    \item<2-> How long to compute $\pi$ to 6 digits?\\
-      \begin{lstlisting}[language=python]
-from time import time
-start=time()
-#compute pi
-print time()-start
-      \end{lstlisting}
+    \item List
+      \begin{itemize}
+        \item Particles
+        \item Lines in an input file
+      \end{itemize}
+    \item Tuple
+      \begin{itemize}
+        \item Position data
+      \end{itemize}
+    \item Dictionary
+      \begin{itemize}
+        \item Associated lists
+        \item Look-up tables
+        \item Histograms
+        \item Networks
+        \item Graphs
+      \end{itemize}
   \end{itemize}
 \end{frame}
 

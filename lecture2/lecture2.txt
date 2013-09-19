@@ -1,0 +1,42 @@
+#
+
+## Tuples
+a,b = b,a
+help(tuple)
+`
+In [29]: def angle(pos):
+    x=pos[0]
+    y=pos[1]
+    adjacent=math.sqrt(x**2 + y**2)
+    return math.degrees(math.asin(y/adjacent)o
+
+
+## Lists
+# append
+# insert
+# Slicing
+u = range(10)
+u[:]
+u[1:9]
+u[:2]
+u[::2]
+u[::-1]
+
+#Dict
+help(dict)
+
+Elements.keys()
+Elements.values()
+
+## histogram
+
+
+
+# multi-dimensional
+u = [range(10) for i in range(10)]
+
+
+
+
+# comprehension
+
