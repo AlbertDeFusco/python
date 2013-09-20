@@ -34,184 +34,136 @@
 
 \begin{document}
 
-\title{Python: beyond the basics}
-\author{Albert DeFusco}
+\title{Python for Scientific Computing}
+\subtitle{Lecture 3: Object-oriented Programming}
+\author{Albert DeFusco\\Center for Simulation and Modeling}
 \date{\today}
 
 
 \frame{\titlepage}
 
-\begin{frame}
-  \frametitle{Functions}
-  \begin{itemize}
-    \item Doc strings
-    \item Default values
-    \item Optional arguments
-    \item Returns
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Functions}
-\begin{lstlisting}[language=Python]
-def divide(x,y):
-  """Divide takes two integers as input
-  returns a tupe of quotient and remainder"""
-  return x/y,x%y
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Mathematical Exercises}
-  \begin{itemize}
-    \item Write a function to differentiate another function
-  \end{itemize}
-\begin{equation*}
-  f^{\prime}(x) \approx \frac{f(x+h) - f(x-h)}{2h}
-\end{equation*}
-\begin{itemize}
-  \item<2-> $f(x)$ and $h$ are arguments
-    \begin{itemize}
-      \item make $h=0.01$ the default value
-    \end{itemize}
-  \item<2-> Practice with the following functions
-    \begin{itemize}
-      \item $f(x) = x^2$ at $x=1$
-      \item $f(x) = cos(x)$ at $x=2\pi$
-      \item $f(x) = e^{-2x^2}$ at $x=0$
-    \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{recursions}
-  \begin{equation*}
-    n! = \prod_{k=1}^n k
-  \end{equation*}
-\begin{lstlisting}[language=Python]
-def factorial(n):
-  if(n==0):
-    return 1
-  return n*factorial(n-1)
-\end{lstlisting}
-\end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Functions and variables}
   \begin{itemize}
-    \item Functions are defined in {\tt def} blocks\\
-      \begin{lstlisting}[language=python]
+    \item Functions can be documented easily\\
+      \begin{lstlisting}[language=Python]
 def pi(i):
   """Compute the ith term of the Wallis formula"""
   return 4.*i**2 / (4.*i**2 - 1)
 
-  print pi.__doc__
+help(pi)
       \end{lstlisting}
     \item Multiple returns are tuples\\
-      \begin{lstlisting}[language=python]
+      \begin{lstlisting}[language=Python]
 def myFunction(x,y):
   return x**2,y*4
 
 a,b = myFunction(y=2,x=8)
       \end{lstlisting}
     \item Functions are objects
-    \item Variables are passed by value
-    \item Types are still implicit
     \item Global variables can be defined
       \begin{itemize}
-        \item But not for passed variables
-        \item Globals are not good OOP practice
+        \item Globals are not always good practice
+        \item May reduce the usability of a module
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Variable Scopes}
+  \begin{itemize}
+    \item Name Spaces
+      \begin{itemize}
+        \item Global
+        \item Functions
+        \item Modules
       \end{itemize}
   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Functions and mutability}
-  \begin{lstlisting}[language=python]
->>> def try_to_modify(x, y, z):
-...     x = 23
-...     y.append(42)
-...     z = [99]
-...     print(x)
-...     print(y)
-...     print(z)
-...
->>> a = 77
->>> b = [99]
->>> c = [28]
->>> try_to_modify(a, b, c)
-23
-[99, 42]
-[99]
->>> print(a)
-77
->>> print(b)
-[99, 42]
->>> print(c)
-[28]
-  \end{lstlisting}
+  \frametitle{Function Scope}
+  \begin{itemize}
+    \item Variables assigned in a function are private
+  \end{itemize}
+\begin{lstlisting}[language=Python]
+def pi(i):
+  """Compute the ith term of the Wallis formula"""
+  temp=4.*i**2
+  return temp / (temp - 1)
+
+print pi(2)
+print temp
+\end{lstlisting}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Modules}
+\begin{frame}[fragile]
+  \frametitle{Function Scope}
   \begin{itemize}
-    \item Import {\tt math.py} such that {\tt math} becomes the object name\\
-      \lstinline[language=python]|import math|\\
-      \lstinline[language=python]|print math.pi|\\
-      \lstinline[language=python]|print math.sin(math.pi)|
-    \item Alternatives
+    \item Warning!
       \begin{itemize}
-        \item \lstinline[language=python]|from math import sin|
-        \item \lstinline[language=python]|import math as maths|
-      \end{itemize}
-    \item Avoid
-      \begin{itemize}
-        \item \lstinline[language=python]|from math import *|
+        \item Variables assigned before a function are still in scope
+        \item It helps to define functions first
       \end{itemize}
   \end{itemize}
-  \vskip1cm
-{\it If you can imagine it, someone probably has a module that can do it.}\\
-{\scriptsize \url{http://docs.python.org/2/py-modindex.html}}\\
-{\scriptsize \url{http://wiki.python.org/moin/UsefulModules}}\\
+\begin{lstlisting}[language=Python]
+myVar = 5
+def pi(i):
+  """Compute the ith term of the Wallis formula"""
+  print myVar
+  temp=4.*i**2
+  return temp / (temp - 1)
+
+print temp
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Classes}
-  \begin{lstlisting}[language=python]
-  class Molecule(object):
-    """Molecules have a name and chemical formula"""
-    #Print the above message with "print <instance>.__doc__"
-    weight=0
-    def __init__(self,name)
-      self.name = name
-    def setName(self,name):
-      self.name = name
-    def setFormula(self,formula):
-      self.formula=formula
-    def computeWeight(self)
-      try:
-        weight = f(formula)
-      except:
-        print "the chemical formula was not set"
-        return None
-   \end{lstlisting}
-   \begin{itemize}
-     \item Private members and methods are name mangled
-       \begin{itemize}
-         \item \lstinline[language=python]|__name| becomes \lstinline[language=python]|_classname_name| at runtime
-         \item Somewhat taboo in Python culture
-       \end{itemize}
-   \end{itemize}
+  \begin{lstlisting}[language=Python]
+class shape(object):
+  """Shapes have color"""
+  def setColor(self,color):
+    self.color=color
+
+
+class Molecule(object):
+  """Molecules have a name and chemical formula"""
+  def __init__(self,name)
+    self.name = name
+  def setName(self,name):
+    self.name = name
+  def setFormula(self,formula):
+    self.formula=formula
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Class and instance variables}
+  \begin{itemize}
+    \item Loose definition can lead to confusion
+    \item Instance variables
+      \begin{itemize}
+        \item Must use {\tt self}
+      \end{itemize}
+    \item Class variables
+      \begin{itemize}
+        \item May be default values
+        \item Accessible in the {\it instance} and {\it class} name spaces
+        \item Be wary of using mutable objects
+      \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Overloading}
   Change or the define the behavior of operations
-  \begin{lstlisting}[language=python]
+  \begin{lstlisting}[language=Python]
 class Molecule(object):
 ...
   def __add__(self, other):
-  return self.weight+other.weight,self.formula+other.formula
+    return self.formula+other.formula
   \end{lstlisting}
 \end{frame}
 
@@ -219,30 +171,49 @@ class Molecule(object):
   \frametitle{Inheritance}
   \begin{itemize}
     \item Child classes can be more {\it specific} than the parent\\
-      \begin{lstlisting}[language=python]
-class Chromophore(Molecule):
-  """Chromophore is a special type of Molecule"""
-  def absorption(self):
-    """Compute absorption spectrum"""
-    self.specturm = absorb(formula)
-      \end{lstlisting}
     \item Subclasses can override the superclass$^\dagger$\\
-  \begin{lstlisting}[language=python]
-class Polymer(Molecule):
-  """A polymer has a monomer (molecule) and a repeat"""
-  def __init__(self,name,lenght):
-    super(Polymer,self).__init__("poly"+name)
-    self.lenght = lenght
-  def grow(self,length):
-    self.weight+=length*self.weight/self.length
-    self.length+=length
-  def setFormula(self,formula):
-    self.formula="["+formula+"]"+str(self.length)
-  def setWeight(self,weight):
-    self.weight=weight*self.length
-  \end{lstlisting}
+\begin{lstlisting}[language=Python]
+class shape(object):
+  def setColor(self,color):
+    self.color=color
+
+class circle(shape):
+  def __init__(self,radius=1.0):
+    self.radius=radius
+\end{lstlisting}
   \end{itemize}
   $^\dagger${\scriptsize Polymorphism in Python is achieved when classes implement the same methods, which reduces the number of {\tt if} statements}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Modules}
+  \begin{itemize}
+    \item Any Python script file can be imported
+    \item Name space defaults to the file name
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Modules}
+  \begin{itemize}
+    \item Import {\tt math.py} such that {\tt math} becomes the object name\\
+      \lstinline[language=Python]|import math|\\
+      \lstinline[language=Python]|print math.pi|\\
+      \lstinline[language=Python]|print math.sin(math.pi)|
+    \item Alternatives
+      \begin{itemize}
+        \item \lstinline[language=Python]|from math import sin|
+        \item \lstinline[language=Python]|import math as maths|
+      \end{itemize}
+    \item Avoid
+      \begin{itemize}
+        \item \lstinline[language=Python]|from math import *|
+      \end{itemize}
+  \end{itemize}
+  \vskip1cm
+{\it If you can imagine it, someone probably has a module that can do it.}\\
+{\scriptsize \url{http://docs.python.org/2/py-modindex.html}}\\
+{\scriptsize \url{http://wiki.python.org/moin/UsefulModules}}\\
 \end{frame}
 
 \begin{frame}
@@ -269,6 +240,28 @@ class Polymer(Molecule):
   \begin{lstlisting}[language=Python]
 def celcius(tempF):
 \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Mathematical Exercises}
+  \begin{itemize}
+    \item Write a function to differentiate another function
+  \end{itemize}
+\begin{equation*}
+  f^{\prime}(x) \approx \frac{f(x+h) - f(x-h)}{2h}
+\end{equation*}
+\begin{itemize}
+  \item<2-> $f(x)$ and $h$ are arguments
+    \begin{itemize}
+      \item make $h=0.01$ the default value
+    \end{itemize}
+  \item<2-> Practice with the following functions
+    \begin{itemize}
+      \item $f(x) = x^2$ at $x=1$
+      \item $f(x) = cos(x)$ at $x=2\pi$
+      \item $f(x) = e^{-2x^2}$ at $x=0$
+    \end{itemize}
+\end{itemize}
 \end{frame}
 
 \end{document}
