@@ -10,7 +10,7 @@
 \usepackage{listings}
 \usepackage[T1]{fontenc}
 
-%\def \audience {}
+\def \audience {}
 
 \lstset{
     language=Python,
@@ -183,15 +183,20 @@ def fibonacci_iter(n):
 \end{frame}
 
 \begin{frame}
-	\frametitle{Magic functions in IPython}
+	\frametitle{Python Profiler}
 	\begin{itemize}
-		\item Special commands to modify execution or environment
-		\item Examples:
+		\item Provides a performance description of a program
+		\item Magic functions in IPython
 		\begin{itemize}
-			\item \%edit, \%run
+			\item Special commands to modify execution or environment
+			\item Examples: \%edit, \%run, \%env
+			\item Get timing information: \%time, \%timeit 
+			\item Get profile information: \%prun 
 		\end{itemize}
-		\item Get timing information: \%time
-		\item Get profile information: \%profile
+		\item Line profiler
+		\begin{itemize}
+			\item Install {\tt line\_profiler} and {\tt kernprof} modules
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -218,6 +223,13 @@ def bubble_sort(list):
                 list[j],list[j+1] = list[j+1],list[j]
                 change = True
 	\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Line Profile of Bubble Sort}
+	{\tt ./kernprof.py -l -v profile.py} \newline \newline
+	\centering \includegraphics[scale=0.3]{profile}	
 \end{frame}
 
 \begin{frame}[fragile]
@@ -359,21 +371,60 @@ sum += foo(n)
 	\end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Exceptions}
 	\begin{itemize}
 		\item Model abnormal behavior
 		\item Disrupts the execution flow 
+		\item Use {\tt raise} command to throw an exception
+		\item Use {\tt try} and {\tt except} to handle an exception
+		\item Example:
+			\begin{lstlisting}[language=Python]
+def foo(n):
+  if n < 0:
+    raise Exception("Negative Value")
+try:
+  foo(n)
+except Exception:
+  foo(-n)
+			\end{lstlisting}
 	\end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Exceptions (cont.)}
+	\begin{itemize}
+		\item Faster than conditional statements
+		\item Example:
+			\begin{lstlisting}[language=Python]
+repetitions = {}
+for word in words:
+  if word not in repetitions:
+    repetitions[word] = 1
+  else:
+    repetitions[word] += 1
+			\end{lstlisting}
+			\begin{lstlisting}[language=Python]
+repetitions = {}
+for word in words:
+  try:
+    repetitions[word] += 1
+  except KeyError:
+    repetitions[word] = 1
+			\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
 
 {\setbeamercolor{background canvas}{bg=navy}
 \setbeamercolor{itemize item}{fg=yellow}
 \begin{frame}
 	\frametitle{\textcolor{yellow}{Concluding Remarks}}
 	\begin{itemize}
-		\item \textcolor{white}{Try a different implementation: recursion $\rightarrow$ iteration}
-		\item \textcolor{white}{Try a different algorithm: reduce number of operations}
+		\item \textcolor{white}{Get it right, get it faster}
+		\item \textcolor{white}{Tradeoff between elegance and performance}
+		\item \textcolor{white}{Different implementations: recursion $\rightarrow$ iteration}
+		\item \textcolor{white}{Different algorithms, complexity: reduce number of operations}
 		\item \textcolor{white}{Use profiler to detect performance bottlenecks}
 		\item \textcolor{white}{Follow performance recommendations to avoid costly operations}
 	\end{itemize}
