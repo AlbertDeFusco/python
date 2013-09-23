@@ -42,6 +42,38 @@
 
 \frame{\titlepage}
 
+\begin{frame}
+  \frametitle{Modules}
+  \begin{itemize}
+    \item Import {\tt math.py} such that {\tt math} becomes the object name\\
+      \lstinline[language=Python]|import math|\\
+      \lstinline[language=Python]|print math.pi|\\
+      \lstinline[language=Python]|print math.sin(math.pi)|
+    \item Alternatives
+      \begin{itemize}
+        \item \lstinline[language=Python]|from math import sin|
+        \item \lstinline[language=Python]|import math as maths|
+      \end{itemize}
+    \item Avoid
+      \begin{itemize}
+        \item \lstinline[language=Python]|from math import *|
+      \end{itemize}
+  \end{itemize}
+  \vskip1cm
+{\it If you can imagine it, someone probably has a module that can do it.}\\
+{\scriptsize \url{http://docs.python.org/2/py-modindex.html}}\\
+{\scriptsize \url{http://wiki.python.org/moin/UsefulModules}}\\
+\end{frame}
+
+\begin{frame}
+  \frametitle{Modules}
+  \begin{itemize}
+    \item Any python script can be imported
+    \item The contents are run when imported
+    \item Use \lstinline[language=Python]|__main__| to just import definitions
+    \item Name space defaults to the script's file name
+  \end{itemize}
+\end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Functions and variables}
@@ -61,23 +93,37 @@ def myFunction(x,y):
 
 a,b = myFunction(y=2,x=8)
       \end{lstlisting}
+    \item Default and optional arguments\\
+\begin{lstlisting}[language=Python]
+def derivative(f,x,h=0.01):
+  return (f(x+h) - f(x-h)) / 2.*h
+
+def f(x):
+  return x**2
+
+derivative(f,x=0)
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Functionals and variables}
+  \begin{itemize}
     \item Functions are objects
     \item Global variables can be defined
       \begin{itemize}
-        \item Globals are not always good practice
+        \item Not always good practice
         \item May reduce the usability of a module
       \end{itemize}
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Variable Scopes}
+  \frametitle{Name Spaces and Scopes}
   \begin{itemize}
-    \item Name Spaces
+    \item Modules
       \begin{itemize}
-        \item Global
         \item Functions
-        \item Modules
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -120,50 +166,94 @@ print temp
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Classes}
-  \begin{lstlisting}[language=Python]
-class shape(object):
-  """Shapes have color"""
-  def setColor(self,color):
-    self.color=color
-
-
-class Molecule(object):
-  """Molecules have a name and chemical formula"""
-  def __init__(self,name)
-    self.name = name
-  def setName(self,name):
-    self.name = name
-  def setFormula(self,formula):
-    self.formula=formula
-\end{lstlisting}
+  \frametitle{Module Scope}
+  \begin{itemize}
+    \item Names assigned in a module are readable by functions
+    \item Names assigned in functions do not affect the outer scope
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Class and instance variables}
+  \frametitle{Object Oriented Programming}
   \begin{itemize}
-    \item Loose definition can lead to confusion
-    \item Instance variables
+    \item Focus on data, not on the procedure
+    \item Encapsulate procedures with data
+    \item Create {\it modular} code that can be reused
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Object Oriented Programming}
+  \begin{itemize}
+    \item {\bf Class}
       \begin{itemize}
-        \item Must use {\tt self}
+        \item The description of a {\it type} of object
       \end{itemize}
-    \item Class variables
+    \item {\bf Object}
       \begin{itemize}
-        \item May be default values
-        \item Accessible in the {\it instance} and {\it class} name spaces
-        \item Be wary of using mutable objects
+        \item The realization of the description
+        \item An {\it instance} of a class
       \end{itemize}
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Object Oriented Programming}
+  \begin{itemize}
+    \item Classes define
+      \begin{itemize}
+        \item Attributes
+        \item Methods
+      \end{itemize}
+    \item Instances have
+      \begin{itemize}
+        \item data stored in attributes
+        \item Methods to operate on the data
+      \end{itemize}
+    \item Objects can interact with each other by passing attributes to methods
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Our modules}
+  {\tt /home/sam/training/python/lecture3}
+
+  \url{http://core.sam.pitt.edu/python-fall2013}
+\end{frame}
+
 \begin{frame}[fragile]
-  \frametitle{Overloading}
-  Change or the define the behavior of operations
+  \frametitle{Classes}
+  \begin{lstlisting}[language=Python]
+class shape(object):
+  """Shapes have a name and color"""
+  def __init__(self,name='shape',color='white'):
+    self.name=name
+    self.color=color
+
+class Molecule(object):
+  """Molecules have a name and chemical formula"""
+  def __init__(self,name,formula)
+    self.name    = name
+    self.formula = formula
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Operator Overloading}
+  Change or define the behavior of operations
   \begin{lstlisting}[language=Python]
 class Molecule(object):
 ...
   def __add__(self, other):
-    return self.formula+other.formula
+    newName    = self.name + " + " + other.name
+    newFormula = "[" + self.formula + "]" + "[" + other.formula + "]"
+    return Molecule(newName,newFormula)
+
+
+mol1=Molecule('water','h2o')
+mol2=Molecule('ammonia','nh3')
+
+mol3 = mol1 + mol2
   \end{lstlisting}
 \end{frame}
 
@@ -173,73 +263,30 @@ class Molecule(object):
     \item Child classes can be more {\it specific} than the parent\\
     \item Subclasses can override the superclass$^\dagger$\\
 \begin{lstlisting}[language=Python]
+import math
 class shape(object):
-  def setColor(self,color):
+  def __init__(self,name='shape',color='white'):
+    self.name=name
     self.color=color
 
 class circle(shape):
-  def __init__(self,radius=1.0):
+  def __init__(self,radius=1.,name='circle',color='white'):
+  super(circle,self).__init__(name,color)
     self.radius=radius
+
+  def area():
+    return math.pi*self.radius**2
+
+class square(shape):
+  def __init__(self,size=1.,name='square',color='white'):
+  super(square,self).__init__(name,color)
+    self.size=size
+
+  def area():
+    return self.size**2
 \end{lstlisting}
   \end{itemize}
   $^\dagger${\scriptsize Polymorphism in Python is achieved when classes implement the same methods, which reduces the number of {\tt if} statements}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Modules}
-  \begin{itemize}
-    \item Any Python script file can be imported
-    \item Name space defaults to the file name
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Modules}
-  \begin{itemize}
-    \item Import {\tt math.py} such that {\tt math} becomes the object name\\
-      \lstinline[language=Python]|import math|\\
-      \lstinline[language=Python]|print math.pi|\\
-      \lstinline[language=Python]|print math.sin(math.pi)|
-    \item Alternatives
-      \begin{itemize}
-        \item \lstinline[language=Python]|from math import sin|
-        \item \lstinline[language=Python]|import math as maths|
-      \end{itemize}
-    \item Avoid
-      \begin{itemize}
-        \item \lstinline[language=Python]|from math import *|
-      \end{itemize}
-  \end{itemize}
-  \vskip1cm
-{\it If you can imagine it, someone probably has a module that can do it.}\\
-{\scriptsize \url{http://docs.python.org/2/py-modindex.html}}\\
-{\scriptsize \url{http://wiki.python.org/moin/UsefulModules}}\\
-\end{frame}
-
-\begin{frame}
-  \frametitle{Error handling}
-  \begin{itemize}
-    \item unix return codes
-    \item stderr
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Exception Object}
-  \begin{itemize}
-    \item Exceptions represent errors
-    \item Exceptions are built-in at the lowest level
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Checking for errors}
-  \begin{itemize}
-    \item avoid checking (if) for all possible errors
-  \end{itemize}
-  \begin{lstlisting}[language=Python]
-def celcius(tempF):
-\end{lstlisting}
 \end{frame}
 
 \end{document}
