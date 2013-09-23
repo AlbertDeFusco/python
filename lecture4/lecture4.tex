@@ -10,7 +10,7 @@
 \usepackage{listings}
 \usepackage[T1]{fontenc}
 
-\def \audience {}
+%\def \audience {}
 
 \lstset{
     language=Python,
@@ -69,15 +69,16 @@
 
 \begin{frame}
 	\frametitle{What does \emph{Code Optimization} mean?}
-	\begin{itemize}
-		\item Algorithm Design
-		\begin{itemize}
-			\item Implementation alternatives
-			\item Algorithmic alternatives
-		\end{itemize}
-		\item Profiler
-		\item Performance recommendations
-	\end{itemize}
+			\begin{itemize}
+				\item Accelerate your code
+				\item Algorithm design
+				\begin{itemize}
+					\item Implementation alternatives
+					\item Algorithmic alternatives
+				\end{itemize}
+				\item Profiler
+				\item Performance recommendations
+			\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -280,11 +281,14 @@ def merge(left,right,list):
 	\begin{itemize}
 		\item A measure of how many operations are performed per input value
 		\item Described as a function of $n$, the input size
+		\item Big $O$ notation represents the worst-case scenario
 		\item Sorting algorithms:
 		\begin{itemize}
 			\item Bubble sort: $O(n^2)$
 			\item Merge sort: $O(n\log(n))$
 		\end{itemize}
+		\item The smaller the complexity function, the better scalability
+		\item {\small $O(1)<O(\log(n))<O(n)<O(n\log(n))<O(n^2)<O(n^3)<O(e^n)$}
 	\end{itemize}
 \end{frame}
 
