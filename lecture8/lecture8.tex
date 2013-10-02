@@ -1,0 +1,609 @@
+\documentclass[xcolor=table,10pt,final]{beamer}
+\renewcommand\mathfamilydefault{\rmdefault}
+
+\setbeamertemplate{navigation symbols}{}
+\usepackage{amsmath,amsfonts,amssymb,pxfonts,xspace}
+\usepackage{textcomp}
+\usepackage{lmodern}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+
+\lstset{
+	basicstyle=\footnotesize,
+	keywordstyle=\color[rgb]{0.1,0.8,0.1}\bfseries,
+	commentstyle=\color{blue},
+	numbers=left,
+	stringstyle=\ttfamily\color{red!50!brown},
+	showstringspaces=false}
+\lstset{literate=%
+   *{0}{{{\color{red!20!violet}0}}}1
+    {1}{{{\color{red!20!violet}1}}}1
+    {2}{{{\color{red!20!violet}2}}}1
+    {3}{{{\color{red!20!violet}3}}}1
+    {4}{{{\color{red!20!violet}4}}}1
+    {5}{{{\color{red!20!violet}5}}}1
+    {6}{{{\color{red!20!violet}6}}}1
+    {7}{{{\color{red!20!violet}7}}}1
+    {8}{{{\color{red!20!violet}8}}}1
+    {9}{{{\color{red!20!violet}9}}}1
+}
+
+
+
+\begin{document}
+
+\title{Python for Scientific Computing}
+\subtitle{Lecture 8: Biopython}
+\author{Antonio M.\ Ferreira, PhD\\Center for Simulation and Modeling}
+\date{\today}
+
+
+\frame{\titlepage}
+\begin{frame}[fragile]
+	\frametitle{What is Biopython?}
+	\medskip
+	\begin{minipage}[t]{\textwidth}
+		\center
+		\includegraphics[width=0.5\textwidth]{figures/biopython}\\
+		{\scriptsize \url{http://www.biopython.org}}
+	\end{minipage}
+	\vfill
+	\begin{minipage}[b][2in][t]{\textwidth}
+		\only<1>{
+			\begin{itemize}
+				\item Automatically parses files into Python data structures:
+				\begin{itemize}
+					\item BLAST
+					\item Clustalw
+					\item FASTA
+					\item PubMed and Medline
+					\item SwissProt
+					\item UniGene
+					\item ExPASy files
+					\item SCOP (including '\texttt{dom}' and '\texttt{lin}' 						      files)
+				\end{itemize}
+			\end{itemize}
+		}
+		\only<2>{
+			\begin{itemize}
+				\item Interfaces for calling popular bioinformatics tools:
+				\begin{itemize}
+					\item BLAST (network and standalone versions)
+					\item Clustalw
+					\item EMBOSS
+					\item BioSQL
+					\item \textbf{Many} others
+				\end{itemize}
+			\end{itemize}
+		}
+		\only<3>{
+			\bigskip
+			\begin{quote}
+				Basically, we just like to program in Python and want to make 					it as easy as possible to use Python for bioinformatics by 					    creating high-quality, reusable modules and scripts.
+			\end{quote}
+		}
+	\end{minipage}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Getting Started}
+	\begin{itemize}
+		\item<1-> Get the workshop data
+			{\small
+		      \begin{verbatim}
+$ cd ~
+$ mkdir -p biopython/data
+$ cd biopython/data
+$ cp -v /pan/genomics/data/Biopython_workshop/* .
+		      \end{verbatim}
+			}
+		\item<2-> Set up your environment
+			{\small
+		          \begin{verbatim}
+$ module purge
+$ module load genomics/ver6
+		          \end{verbatim}
+			}
+		\item<3-> Now you can start Python
+			{\small
+			\begin{verbatim}
+$ cd ~/biopython
+$ python
+Enthought Python Distribution -- www.enthought.com
+Version: 7.2-2 (64-bit)
+
+Python 2.7.2 |EPD 7.2-2 (64-bit)| (default, Jul  3 2011, 15:17:51) 
+[GCC 4.1.2 20080704 (Red Hat 4.1.2-44)] on linux2
+Type "packages", "demo" or "enthought" for more information.
+>>> 
+			\end{verbatim}
+			}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Quick Start}
+	\begin{itemize}
+		\item Let's have some fun with sequences
+			\begin{lstlisting}[language=python]
+>>> from Bio.Seq import Seq 
+>>> my_seq = Seq("AGTACACTGGT")
+>>> type(my_seq)
+>>> my_seq
+>>> print my_seq
+>>> my_seq.alphabet
+>>> my_seq.complement()
+>>> my_seq.reverse_complement()
+>>> print my_seq.lower()
+>>> print my_seq.upper()
+			\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Quick Start}
+	\begin{itemize}
+		\item Now let's play with a file
+			\begin{lstlisting}[language=python]
+>>> from Bio import SeqIO
+>>> for seq_record in SeqIO.parse("data/ls_orchid.fasta",
+                                  "fasta"):
+...     print seq_record.id
+...     print repr(seq_record.seq)
+...     print len(seq_record)
+			\end{lstlisting}
+		\item How about a genbank file?
+			\begin{lstlisting}[language=python]
+>>> for seq_record in SeqIO.parse("data/ls_orchid.gbk",
+                                  "genbank"):
+...     print seq_record.id
+...     print repr(seq_record.seq)
+...     print len(seq_record)
+			\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Sequences and Alphabets}
+	\begin{itemize}
+		\item Sequence objects are more than just strings
+		\item \texttt{Bio.Alphabet.IUPAC} provides basic DNA, RNA, and protein 			      functionality
+		\begin{itemize}
+			\item \texttt{ExtendedIUPACProtein} class
+			\begin{itemize}
+				\item U/Sec for selenocysteine
+				\item O/Pyl for pyrrolysine
+				\item J/Xle for leucine isoleucine
+				\item Z/Glx for glutamine or glutamic acid
+				\item X/Xxx for unknown amino acid
+			\end{itemize}
+			\item \texttt{IUPACAmbiguousRNA} or \texttt{IUPACUnambiguousRNA}
+			\item \texttt{IUPACAmbiguousDNA} or \texttt{IUPACUnambiguousDNA}
+			\begin{itemize}
+				\item \texttt{ExtendedIUPAC[DNA/RNA]} for modified bases
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Sequences and Alphabets}
+	\begin{itemize}
+		\item Sequences act like strings
+			\begin{lstlisting}[language=python]
+>>> from Bio.Seq import Seq
+>>> from Bio.Alphabet import IUPAC
+>>> my_seq = Seq('GATCGATGGGCCTATATAGGATCGAAAATCGC',
+                 IUPAC.unambiguous_dna)
+>>> my_seq = Seq("GATCG", IUPAC.unambiguous_dna)
+>>> for index, letter in enumerate(my_seq):
+... print index, letter
+			\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Transcription}
+		\begin{itemize}
+			\item Biopython can simplify the mundane tasks
+		\end{itemize}
+		\begin{lstlisting}[language=python]
+>>> from Bio.Seq import Seq
+>>> from Bio.Alphabet import IUPAC
+>>> coding_dna = Seq("ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG",
+                     IUPAC.unambiguous_dna)
+>>> coding_dna
+>>> template_dna = coding_dna.reverse_complement()
+>>> template_dna
+>>> messenger_rna = coding_dna.transcribe()
+>>> messenger_rna
+>>> template_dna.reverse_complement().transcribe()
+>>> messenger_rna.back_transcribe()
+		\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Translation}
+		\begin{itemize}
+			\item Now we can generate the corresponding amino acid sequence
+		\end{itemize}
+		\begin{lstlisting}[language=python]
+>>> messenger_rna.translate()
+		\end{lstlisting}
+		\begin{itemize}
+			\item You can even do it directly from the DNA sequence
+		\end{itemize}
+		\begin{lstlisting}[language=python]
+>>> coding_dna.translate()
+>>> coding_dna.translate(table="Vertebrate Mitochondrial")
+>>> coding_dna.translate(table=2, to_stop=True)
+		\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Translation Tables}
+	\begin{lstlisting}[language=python]
+>>> from Bio.Data import CodonTable
+>>> standard_table =
+    CodonTable.unambiguous_dna_by_name["Standard"]
+>>> mito_table = 
+    CodonTable.unambiguous_dna_by_name["Vertebrate Mitochondrial"]
+>>> print standard_table
+>>> print mito_table
+>>> mito_table.stop_codons
+>>> mito_table.start_codons
+>>> mito_table.forward_table["ACG"]
+	\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Mutable Sequence Objects}
+Try:
+	\begin{lstlisting}[language=python]
+>>> from Bio.Seq import Seq
+>>> from Bio.Alphabet import IUPAC
+>>> my_seq = Seq("GCCATTGTAATGGGCCGCTGAAAGGGTGCCCGA",
+                 IUPAC.unambiguous_dna)
+>>> my_seq[5] = "G"
+	\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Mutable Sequence Objects}
+Try:
+	\begin{lstlisting}[language=python]
+>>> from Bio.Seq import Seq
+>>> from Bio.Alphabet import IUPAC
+>>> my_seq = Seq("GCCATTGTAATGGGCCGCTGAAAGGGTGCCCGA",
+                 IUPAC.unambiguous_dna)
+>>> my_seq[5] = "G"
+	\end{lstlisting}
+Did it work?\\
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+	\frametitle{Mutable Sequence Objects}
+Try:
+	\begin{lstlisting}[language=python]
+>>> from Bio.Seq import Seq
+>>> from Bio.Alphabet import IUPAC
+>>> my_seq = Seq("GCCATTGTAATGGGCCGCTGAAAGGGTGCCCGA",
+                 IUPAC.unambiguous_dna)
+>>> my_seq[5] = "G"
+	\end{lstlisting}
+Did it work?\\
+Now try:
+	\begin{lstlisting}[language=python]
+>>> mutable_seq = my_seq.tomutable()
+>>> mutable_seq
+>>> mutable_seq[5] = "G"
+	\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Exercise}
+	\begin{itemize}
+		\item Create a sequence
+		\item Translate the sequence using the standard table
+		\item Change two of the sequence elements
+		\item Translate the new sequence
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{The SeqRecord Object}
+	\begin{itemize}
+		\item Defined in the \texttt{Bio.SeqRecord} module
+		\item Easy to create from a FASTA file
+		\begin{lstlisting}[language=python]
+>>> from Bio import SeqIO
+>>> record = SeqIO.read("data/NC_005816.fna", "fasta")
+>>> record
+>>> record.seq
+>>> record.id
+>>> record.name
+>>> record.description
+		\end{lstlisting}
+		\item Now try with a GenBank file
+		\begin{lstlisting}[language=python]
+>>> from Bio import SeqIO
+>>> record = SeqIO.read("data/NC_005816.gb", "genbank")
+>>> record
+>>> record.seq
+>>> print record.features[20]
+>>> print record.features[21]
+>>> rc = record.reverse_complement(id="TESTING")
+>>> print rc.id, len(rc), len(rc.features), len(rc.dbxrefs),
+    len(rc.annotations)
+		\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Restriction Enzymes}
+	Biopython has over 600 built-in restriction enzymes
+	\begin{lstlisting}[language=python]
+>>> from Bio.Restriction import Restriction
+>>> print Restriction.Sau3AI.site
+>>> digest = Restriction.ApaI.catalyse(record.seq)
+>>> print "Number of fragments is", len(digest)
+>>> print digest
+	\end{lstlisting}
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+	\frametitle{Reading Sequence Files}
+	\begin{lstlisting}[language=python]
+from Bio import SeqIO
+for seq_record in SeqIO.parse("data/ls_orchid.fasta", "fasta"):
+	print seq_record.id
+	print repr(seq_record.seq)
+	print len(seq_record)
+	\end{lstlisting}
+or
+	\begin{lstlisting}[language=python]
+for seq_record in SeqIO.parse("ls_orchid.gbk", "genbank"):
+	print seq_record.id
+	print seq_record.seq
+	print len(seq_record)
+	\end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+	\frametitle{Iterating Over Records in a Sequence File}
+	\begin{lstlisting}[language=python]
+>>> record_iterator = SeqIO.parse("ls_orchid.fasta", "fasta")
+>>> first_record = record_iterator.next()
+>>> print first_record.id
+>>> print first_record.description
+>>> second_record = record_iterator.next()
+>>> print second_record.id
+>>> print second_record.description
+	\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Getting Data from Entrez}
+	\begin{lstlisting}[language=python]
+>>> from Bio import Entrez
+>>> Entrez.email = "amf@pitt.edu"
+>>> handle = Entrez.efetch(db="nucleotide", rettype="fasta",
+                           retmode="text", id="6273291")
+>>> seq_record = SeqIO.read(handle, "fasta")
+>>> handle.close()
+>>> print "%s with %i features" % 
+          (seq_record.id, len(seq_record.features))
+	\end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+	\frametitle{Getting Data from SwissProt}
+	\begin{lstlisting}[language=python]
+>>> from Bio import ExPASy
+>>> handle = ExPASy.get_sprot_raw("O23729")
+>>> seq_record = SeqIO.read(handle, "swiss")
+>>> handle.close()
+>>> print seq_record.id
+>>> print seq_record.name
+>>> print seq_record.description
+>>> print repr(seq_record.seq)
+>>> print "Length %i" % len(seq_record)
+>>> print seq_record.annotations["keywords"]
+	\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Writing Sequence Files}
+	\begin{lstlisting}[language=python]
+from data.sample_seqs import *
+SeqIO.write(my_records, "my_example.faa", "fasta")
+	\end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+	\frametitle{Converting Between Sequence File Formats}
+	Explicit
+	\begin{lstlisting}[language=python]
+from Bio import SeqIO
+records = SeqIO.parse("ls_orchid.gbk", "genbank")
+count = SeqIO.write(records, "my_example.fasta", "fasta")
+print "Converted %i records" % count
+	\end{lstlisting}
+	Using Biopython
+	\begin{lstlisting}[language=python]
+help(SeqIO.convert)
+count = SeqIO.convert("ls_orchid.gbk", "genbank",
+                      "my_example.fasta", "fasta")
+print "Converted %i records" % count
+	\end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+	\frametitle{Network-based NCBI BLAST}
+	We can download data directly from NCBI in FASTA format
+	\begin{lstlisting}[language=python]
+>>> from Bio.Blast import NCBIWWW
+>>> help(NCBIWWW.qblast)
+>>> result_handle = NCBIWWW.qblast("blastn", "nt", "8332116")
+>>> fasta_string = open("m_cold.fasta").read()
+>>> result_handle = NCBIWWW.qblast("blastn", "nt", fasta_string)
+	\end{lstlisting}
+	Could also read in the FASTA file as a \texttt{SeqRecord}
+	\begin{lstlisting}[language=python]
+>>> from Bio.Blast import NCBIWWW
+>>> from Bio import SeqIO
+>>> record = SeqIO.read("m_cold.fasta", format="fasta")
+>>> result_handle = NCBIWWW.qblast("blastn", "nt", record.seq)
+	\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Network-based NCBI BLAST (cont.)}
+	You can also use \texttt{SeqRecord} to make a FASTA string including the 			identifier
+	\begin{lstlisting}[language=python]
+>>> from Bio.Blast import NCBIWWW
+>>> from Bio import SeqIO
+>>> record = SeqIO.read("m_cold.fasta", format="fasta")
+>>> result_handle = NCBIWWW.qblast("blastn", "nt",
+                    record.format("fasta"))
+>>> save_file = open("my_blast.xml", "w")
+>>> save_file.write(result_handle.read())
+>>> save_file.close()
+>>> result_handle.close()
+	\end{lstlisting}
+	\texttt{my\_blast.xml} now has the results.  We can parse it directly:
+	\begin{lstlisting}[language=python]
+>>> result_handle = open("my_blast.xml")
+>>> from Bio.Blast import NCBIXML
+>>> blast_records = NCBIXML.parse(result_handle)
+	\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Graphics from Biopython}
+	Biopython uses the ReportLab module to render graphics directly
+	\begin{lstlisting}[language=python]
+from reportlab.lib import colors
+from reportlab.lib.units import cm
+from Bio.Graphics import GenomeDiagram
+from Bio import SeqIO
+record = SeqIO.read("data/NC_005816.gb", "genbank")
+	\end{lstlisting}
+Next we create an empty track and feature set
+	\begin{lstlisting}[language=python]
+gd_diagram = GenomeDiagram.Diagram("Yersinia pestis biovar
+                                    Microtus plasmid pPCP1")
+gd_track_for_features = gd_diagram.new_track(1,
+                                  name="Annotated Features")
+gd_feature_set = gd_track_for_features.new_set()
+	\end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+	\frametitle{Graphics from Biopython (cont.)}	Next we extract the features and color them blue and lightblue
+	\begin{lstlisting}[language=python]
+for feature in record.features:
+        if feature.type != "gene":
+        #Exclude this feature
+                continue
+        if len(gd_feature_set) % 2 == 0:
+                color = colors.blue
+        else:
+                color = colors.lightblue
+                gd_feature_set.add_feature(feature, color=color,
+                                           label=True)
+	\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Graphics from Biopython (cont.)}
+	Now we create the drawing object
+	\begin{lstlisting}[language=python]
+gd_diagram.draw(format="linear", orientation="landscape",
+                pagesize="A4", fragments=4, start=0,
+                end=len(record))
+	\end{lstlisting}
+	We can write it in nearly any format we choose
+	\begin{lstlisting}[language=python]
+gd_diagram.write("plasmid_linear.pdf", "PDF")
+gd_diagram.write("plasmid_linear.eps", "EPS")
+gd_diagram.write("plasmid_linear.svg", "SVG")
+gd_diagram.write("plasmid_linear.png", "PNG")
+	\end{lstlisting}
+	Let's make a circular one:
+	\begin{lstlisting}[language=python]
+gd_diagram.draw(format="circular", circular=True,
+                pagesize=(20*cm,20*cm), start=0, end=len(record))
+gd_diagram.write("plasmid_circular.pdf", "PDF")
+	\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Other Capabilities}
+	\begin{itemize}
+		\item Read/Write PDB files (\texttt{Bio.PDB})
+		\item Population Genetics (\texttt{Bio.PopGen})
+		\item Phylogenetics (\texttt{Bio.Phylo})
+		\item Sequence motif analysis (\texttt{Bio.motifs})
+		\item Cluster Analysis (\texttt{Bio.Cluster})
+		\item Supervised Learning (\texttt{from Bio import ...})
+		\begin{itemize}
+			\item Logistic Regression (\texttt{LogisticRegression})	
+			\item $k$--nearest neighbors (\texttt{kNN})
+		\end{itemize}
+		\item Naive Bayes (\texttt{Bio.NaiveBayes})
+		\item Maximum Entropy (\texttt{Bio.MaximumEntropy})
+		\item Markov Models (\texttt{Bio.MarkovModel} and/or \texttt{Bio.HMM.MarkovModel})
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Further Information}
+	\begin{itemize}
+		\item \url{http://elbo.gs.washington.edu/courses/GS_559_11_wi/}
+		\item \url{http://biopython.org/wiki/Category:Cookbook}
+		\item \url{http://biopython.org/DIST/docs/tutorial/Tutorial.html}
+		\item \url{http://www.bio-cloud.info/Biopython/en/index.html}
+	\end{itemize}
+	\bigskip
+	Feel free to contact me for further help: \texttt{amf@pitt.edu}
+\end{frame}
+
+\end{document}
